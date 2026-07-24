@@ -1,0 +1,452 @@
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  background: white;
+}
+
+/* LEFT PANEL */
+
+.auth-brand-panel {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding: 45px 7vw;
+
+  color: white;
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(139, 92, 246, 0.4),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(99, 102, 241, 0.35),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #111827,
+      #312e81 55%,
+      #4f46e5
+    );
+}
+
+.brand {
+  position: relative;
+  z-index: 5;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 11px;
+
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6
+  );
+
+  color: white;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.brand-content {
+  max-width: 600px;
+
+  position: relative;
+  z-index: 3;
+
+  top: 50%;
+  transform: translateY(-60%);
+}
+
+.mini-badge {
+  width: fit-content;
+
+  margin-bottom: 25px;
+
+  padding: 7px 12px;
+
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.08);
+
+  color: #c7d2fe;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.brand-content h1 {
+  max-width: 570px;
+
+  color: white;
+
+  font-size: clamp(2.8rem, 5vw, 4.7rem);
+  line-height: 1.02;
+}
+
+.brand-content h1 span {
+  display: block;
+  color: #c4b5fd;
+}
+
+.brand-content > p {
+  max-width: 520px;
+
+  margin-top: 24px;
+
+  color: #cbd5e1;
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.feature-list {
+  display: grid;
+  gap: 18px;
+
+  margin-top: 38px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.check {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 10px;
+
+  background: rgba(255,255,255,0.08);
+
+  color: #a7f3d0;
+
+  font-weight: 800;
+}
+
+.feature-item strong,
+.feature-item span {
+  display: block;
+}
+
+.feature-item strong {
+  color: white;
+  font-size: 13px;
+}
+
+.feature-item span {
+  margin-top: 3px;
+
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.decorative-card {
+  position: absolute;
+  z-index: 2;
+
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.card-one {
+  right: 7%;
+  bottom: 7%;
+
+  width: 190px;
+  padding: 18px;
+}
+
+.card-one span,
+.card-one strong,
+.card-one small {
+  display: block;
+}
+
+.card-one span {
+  color: #cbd5e1;
+  font-size: 10px;
+}
+
+.card-one strong {
+  margin: 5px 0;
+
+  color: white;
+  font-size: 28px;
+}
+
+.card-one small {
+  color: #86efac;
+  font-size: 9px;
+}
+
+.card-two {
+  right: 6%;
+  top: 17%;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 14px;
+}
+
+.success-circle {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 9px;
+
+  background: rgba(16,185,129,0.18);
+  color: #6ee7b7;
+}
+
+.card-two strong,
+.card-two span {
+  display: block;
+}
+
+.card-two strong {
+  color: white;
+  font-size: 10px;
+}
+
+.card-two span {
+  margin-top: 2px;
+
+  color: #94a3b8;
+  font-size: 8px;
+}
+
+/* RIGHT FORM */
+
+.auth-form-panel {
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 50px 30px;
+
+  background: #ffffff;
+}
+
+.auth-form-wrapper {
+  width: min(100%, 430px);
+}
+
+.mobile-brand {
+  display: none;
+}
+
+.form-heading {
+  margin-bottom: 35px;
+}
+
+.form-heading h2 {
+  margin-bottom: 10px;
+
+  font-size: 32px;
+}
+
+.form-heading p {
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 21px;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forgot-link {
+  margin-bottom: 7px;
+
+  color: var(--primary);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.form-control {
+  height: 50px;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .form-control {
+  padding-right: 70px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 13px;
+
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+
+  color: var(--primary);
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.error-text {
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--danger);
+
+  font-size: 11px;
+}
+
+.remember-row {
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 4px 0 25px;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.remember-row input {
+  width: 16px;
+  height: 16px;
+
+  accent-color: var(--primary);
+}
+
+.submit-btn {
+  width: 100%;
+  min-height: 50px;
+}
+
+.auth-footer-text {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  margin-top: 28px;
+
+  font-size: 13px;
+}
+
+.auth-footer-text span {
+  color: var(--text-secondary);
+}
+
+.auth-footer-text a {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.back-home {
+  display: block;
+
+  margin-top: 35px;
+
+  text-align: center;
+
+  color: var(--text-muted);
+
+  font-size: 12px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand-panel {
+    display: none;
+  }
+
+  .mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    width: fit-content;
+
+    margin-bottom: 55px;
+
+    color: var(--text-primary);
+
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .auth-form-panel {
+    padding: 35px 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-heading h2 {
+    font-size: 27px;
+  }
+
+  .mobile-brand {
+    margin-bottom: 40px;
+  }
+}

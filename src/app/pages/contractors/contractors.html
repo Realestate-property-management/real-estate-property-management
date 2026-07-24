@@ -1,0 +1,712 @@
+<div class="contractors-page fade-up">
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        SERVICE NETWORK
+      </span>
+
+      <h1>Contractors</h1>
+
+      <p>
+        Manage trusted contractors and service
+        providers across your property portfolio.
+      </p>
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="openAddModal()"
+    >
+      + Add Contractor
+    </button>
+
+  </div>
+
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+
+      <div class="summary-icon active">
+        ✓
+      </div>
+
+      <div>
+        <span>Active Contractors</span>
+
+        <strong>
+          {{ activeCount }}
+        </strong>
+
+        <small>
+          Available service providers
+        </small>
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon jobs">
+        W
+      </div>
+
+      <div>
+        <span>Active Jobs</span>
+
+        <strong>
+          {{ activeJobs }}
+        </strong>
+
+        <small>
+          Currently assigned
+        </small>
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon completed">
+        ✓
+      </div>
+
+      <div>
+        <span>Completed Jobs</span>
+
+        <strong>
+          {{ totalCompletedJobs }}
+        </strong>
+
+        <small>
+          Across all contractors
+        </small>
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon rating">
+        ★
+      </div>
+
+      <div>
+        <span>Average Rating</span>
+
+        <strong>
+          {{ averageRating }}
+        </strong>
+
+        <small>
+          Service quality score
+        </small>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="contractor-panel">
+
+    <div class="toolbar">
+
+      <div class="search-box">
+
+        <span>⌕</span>
+
+        <input
+          type="text"
+          placeholder="Search contractors, companies or skills..."
+          (input)="onSearch($event)"
+        >
+
+      </div>
+
+
+      <select
+        class="filter-select"
+        (change)="onStatusChange($event)"
+      >
+
+        <option value="ALL">
+          All Status
+        </option>
+
+        <option value="ACTIVE">
+          Active
+        </option>
+
+        <option value="INACTIVE">
+          Inactive
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="contractor-grid">
+
+      @for (
+        contractor of filteredContractors;
+        track contractor.id
+      ) {
+
+        <article class="contractor-card">
+
+          <div class="contractor-top">
+
+            <div class="avatar">
+              {{
+                contractor.name
+                  .charAt(0)
+              }}
+            </div>
+
+            <span
+              class="status"
+              [class.active]="
+                contractor.status === 'ACTIVE'
+              "
+              [class.inactive]="
+                contractor.status === 'INACTIVE'
+              "
+            >
+              <span class="dot"></span>
+
+              {{ contractor.status }}
+            </span>
+
+          </div>
+
+
+          <div class="contractor-info">
+
+            <h3>
+              {{ contractor.name }}
+            </h3>
+
+            <p class="company">
+              {{ contractor.company }}
+            </p>
+
+            <span class="specialization">
+              {{ contractor.specialization }}
+            </span>
+
+          </div>
+
+
+          <div class="contact-details">
+
+            <div>
+              <span>EMAIL</span>
+
+              <strong>
+                {{ contractor.email }}
+              </strong>
+            </div>
+
+            <div>
+              <span>PHONE</span>
+
+              <strong>
+                {{ contractor.phone }}
+              </strong>
+            </div>
+
+            <div>
+              <span>LOCATION</span>
+
+              <strong>
+                {{ contractor.location }}
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div class="job-stats">
+
+            <div>
+              <strong>
+                {{ contractor.rating }}
+              </strong>
+
+              <span>
+                ★ Rating
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                {{ contractor.completedJobs }}
+              </strong>
+
+              <span>
+                Completed
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                {{ contractor.currentJobs }}
+              </strong>
+
+              <span>
+                Active Jobs
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="card-actions">
+
+            <button
+              class="action-button"
+              (click)="viewContractor(contractor)"
+            >
+              View
+            </button>
+
+            <button
+              class="action-button"
+              (click)="openEditModal(contractor)"
+            >
+              Edit
+            </button>
+
+            <button
+              class="action-button status-button"
+              (click)="toggleStatus(contractor)"
+            >
+              {{
+                contractor.status === 'ACTIVE'
+                  ? 'Deactivate'
+                  : 'Activate'
+              }}
+            </button>
+
+            <button
+              class="action-button delete"
+              (click)="deleteContractor(contractor)"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </article>
+
+      }
+
+
+      @if (
+        filteredContractors.length === 0
+      ) {
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            C
+          </div>
+
+          <h3>
+            No contractors found
+          </h3>
+
+          <p>
+            Try changing your search or filter.
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+</div>
+
+
+@if (showModal) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeModal()"
+  >
+
+    <div
+      class="modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+          <span class="eyebrow">
+            CONTRACTOR
+          </span>
+
+          <h2>
+            @if (editingContractor) {
+              Edit Contractor
+            } @else {
+              Add Contractor
+            }
+          </h2>
+
+          <p>
+            Add or update service provider details.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        [formGroup]="contractorForm"
+        (ngSubmit)="saveContractor()"
+      >
+
+        <div class="form-grid">
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Contractor Name
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="name"
+              placeholder="Full name"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Company
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="company"
+              placeholder="Company name"
+            >
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Specialization
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="specialization"
+            >
+
+              <option value="">
+                Select Specialization
+              </option>
+
+              <option value="Structural Inspection">
+                Structural Inspection
+              </option>
+
+              <option value="Electrical">
+                Electrical
+              </option>
+
+              <option value="Plumbing">
+                Plumbing
+              </option>
+
+              <option value="Fire Safety">
+                Fire Safety
+              </option>
+
+              <option value="HVAC">
+                HVAC
+              </option>
+
+              <option value="General Maintenance">
+                General Maintenance
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Email
+            </label>
+
+            <input
+              class="form-control"
+              type="email"
+              formControlName="email"
+              placeholder="contractor@email.com"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Phone
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="phone"
+              placeholder="+91..."
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Location
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="location"
+              placeholder="City"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Status
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="status"
+            >
+
+              <option value="ACTIVE">
+                Active
+              </option>
+
+              <option value="INACTIVE">
+                Inactive
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Rating
+            </label>
+
+            <input
+              class="form-control"
+              type="number"
+              min="1"
+              max="5"
+              step="0.1"
+              formControlName="rating"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            @if (editingContractor) {
+              Save Changes
+            } @else {
+              Add Contractor
+            }
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+}
+
+
+@if (
+  showDetailsModal &&
+  selectedContractor
+) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeDetailsModal()"
+  >
+
+    <div
+      class="modal details-modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+          <span class="eyebrow">
+            CONTRACTOR PROFILE
+          </span>
+
+          <h2>
+            {{ selectedContractor.name }}
+          </h2>
+
+          <p>
+            Contractor #{{ selectedContractor.id }}
+          </p>
+        </div>
+
+        <button
+          class="close-button"
+          (click)="closeDetailsModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="details-profile">
+
+        <div class="large-avatar">
+          {{
+            selectedContractor.name
+              .charAt(0)
+          }}
+        </div>
+
+        <div>
+          <h3>
+            {{ selectedContractor.company }}
+          </h3>
+
+          <span class="specialization">
+            {{
+              selectedContractor.specialization
+            }}
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="details-grid">
+
+        <div class="detail-box">
+          <span>Email</span>
+
+          <strong>
+            {{ selectedContractor.email }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Phone</span>
+
+          <strong>
+            {{ selectedContractor.phone }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Location</span>
+
+          <strong>
+            {{ selectedContractor.location }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Status</span>
+
+          <strong>
+            {{ selectedContractor.status }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Rating</span>
+
+          <strong>
+            ★ {{ selectedContractor.rating }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Completed Jobs</span>
+
+          <strong>
+            {{ selectedContractor.completedJobs }}
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

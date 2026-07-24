@@ -1,0 +1,1028 @@
+<div class="inspections-page fade-up">
+
+  <!-- HEADER -->
+
+  <div class="page-header">
+
+    <div>
+
+      <span class="eyebrow">
+        INSPECTION MANAGEMENT
+      </span>
+
+      <h1>
+        Inspections
+      </h1>
+
+      <p>
+        Schedule, monitor and complete property
+        compliance inspections.
+      </p>
+
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="openAddModal()"
+    >
+      + Schedule Inspection
+    </button>
+
+  </div>
+
+
+  <!-- SUMMARY -->
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+
+      <div class="summary-icon scheduled">
+        ◷
+      </div>
+
+      <div>
+
+        <span>
+          Scheduled
+        </span>
+
+        <strong>
+          {{ scheduledCount }}
+        </strong>
+
+        <small>
+          Upcoming inspections
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon completed">
+        ✓
+      </div>
+
+      <div>
+
+        <span>
+          Completed
+        </span>
+
+        <strong>
+          {{ completedCount }}
+        </strong>
+
+        <small>
+          Finished inspections
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon ai">
+        ✦
+      </div>
+
+      <div>
+
+        <span>
+          AI Scheduled
+        </span>
+
+        <strong>
+          {{ aiScheduledCount }}
+        </strong>
+
+        <small>
+          Lease-triggered
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon urgent">
+        !
+      </div>
+
+      <div>
+
+        <span>
+          Urgent
+        </span>
+
+        <strong>
+          {{ urgentCount }}
+        </strong>
+
+        <small class="danger">
+          Needs attention
+        </small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- AUTOMATION INFO -->
+
+  <section class="automation-card">
+
+    <div class="automation-icon">
+      ✦
+    </div>
+
+    <div class="automation-content">
+
+      <span class="eyebrow">
+        AUTOMATED SCHEDULING
+      </span>
+
+      <h3>
+        Lease-to-Inspection Automation
+      </h3>
+
+      <p>
+        PropAudit can detect inspection deadlines
+        from lease agreements and create inspection
+        schedules automatically.
+      </p>
+
+    </div>
+
+
+    <div class="automation-flow">
+
+      <span>
+        Lease
+      </span>
+
+      <b>→</b>
+
+      <span>
+        AI Analysis
+      </span>
+
+      <b>→</b>
+
+      <span>
+        Deadline
+      </span>
+
+      <b>→</b>
+
+      <span>
+        Inspection
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <!-- INSPECTIONS LIST -->
+
+  <section class="inspection-panel">
+
+    <div class="toolbar">
+
+      <div class="search-box">
+
+        <span>
+          ⌕
+        </span>
+
+        <input
+          type="text"
+          placeholder="Search inspections, properties..."
+          (input)="onSearch($event)"
+        >
+
+      </div>
+
+
+      <select
+        class="filter-select"
+        (change)="onStatusChange($event)"
+      >
+
+        <option value="ALL">
+          All Status
+        </option>
+
+        <option value="SCHEDULED">
+          Scheduled
+        </option>
+
+        <option value="COMPLETED">
+          Completed
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="inspection-list">
+
+      @for (
+        inspection of filteredInspections;
+        track inspection.id
+      ) {
+
+        <article class="inspection-card">
+
+          <div
+            class="priority-line"
+            [class.urgent]="
+              inspection.priority === 'URGENT'
+            "
+            [class.high]="
+              inspection.priority === 'HIGH'
+            "
+            [class.medium]="
+              inspection.priority === 'MEDIUM'
+            "
+            [class.low]="
+              inspection.priority === 'LOW'
+            "
+          >
+          </div>
+
+
+          <div class="inspection-content">
+
+            <div class="inspection-header">
+
+              <div>
+
+                <div class="badges">
+
+                  <span
+                    class="priority"
+                    [class.urgent]="
+                      inspection.priority === 'URGENT'
+                    "
+                    [class.high]="
+                      inspection.priority === 'HIGH'
+                    "
+                    [class.medium]="
+                      inspection.priority === 'MEDIUM'
+                    "
+                    [class.low]="
+                      inspection.priority === 'LOW'
+                    "
+                  >
+                    {{ inspection.priority }}
+                  </span>
+
+
+                  <span class="type-badge">
+                    {{ inspection.inspectionType }}
+                  </span>
+
+
+                  @if (
+                    inspection.sourceType ===
+                    'AI_LEASE_ANALYSIS'
+                  ) {
+
+                    <span class="ai-badge">
+                      ✦ AI Scheduled
+                    </span>
+
+                  }
+
+                </div>
+
+
+                <h3>
+                  {{ inspection.title }}
+                </h3>
+
+                <p>
+                  {{ inspection.description }}
+                </p>
+
+              </div>
+
+
+              <span
+                class="status"
+                [class.scheduled]="
+                  inspection.status ===
+                  'SCHEDULED'
+                "
+                [class.completed]="
+                  inspection.status ===
+                  'COMPLETED'
+                "
+              >
+
+                <span class="status-dot">
+                </span>
+
+                {{ inspection.status }}
+
+              </span>
+
+            </div>
+
+
+            <div class="inspection-details">
+
+              <div class="detail">
+
+                <span>
+                  PROPERTY
+                </span>
+
+                <strong>
+                  {{ inspection.property }}
+                </strong>
+
+              </div>
+
+
+              <div class="detail">
+
+                <span>
+                  SCHEDULED DATE
+                </span>
+
+                <strong>
+                  {{ inspection.scheduledDate }}
+                </strong>
+
+              </div>
+
+
+              <div class="detail">
+
+                <span>
+                  DUE DATE
+                </span>
+
+                <strong>
+                  {{ inspection.dueDate }}
+                </strong>
+
+              </div>
+
+
+              <div class="detail">
+
+                <span>
+                  CONTRACTOR
+                </span>
+
+                <strong>
+                  {{ inspection.contractor }}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="inspection-footer">
+
+              <span class="inspection-id">
+
+                Inspection
+                #{{ inspection.id }}
+
+              </span>
+
+
+              <div class="actions">
+
+                <button
+                  class="action-button"
+                  (click)="viewInspection(inspection)"
+                >
+                  View
+                </button>
+
+
+                <button
+                  class="action-button"
+                  (click)="openEditModal(inspection)"
+                >
+                  Edit
+                </button>
+
+
+                @if (
+                  inspection.status ===
+                  'SCHEDULED'
+                ) {
+
+                  <button
+                    class="action-button complete"
+                    (click)="completeInspection(inspection)"
+                  >
+                    ✓ Mark Completed
+                  </button>
+
+                }
+
+
+                <button
+                  class="action-button delete"
+                  (click)="deleteInspection(inspection)"
+                >
+                  Delete
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      }
+
+
+      @if (
+        filteredInspections.length === 0
+      ) {
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            ◷
+          </div>
+
+          <h3>
+            No inspections found
+          </h3>
+
+          <p>
+            Try changing your search or filter.
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<!-- ADD / EDIT MODAL -->
+
+@if (showModal) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeModal()"
+  >
+
+    <div
+      class="modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="eyebrow">
+            INSPECTION
+          </span>
+
+          <h2>
+
+            @if (editingInspection) {
+
+              Edit Inspection
+
+            } @else {
+
+              Schedule Inspection
+
+            }
+
+          </h2>
+
+          <p>
+            Configure inspection details and schedule.
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        [formGroup]="inspectionForm"
+        (ngSubmit)="saveInspection()"
+      >
+
+        <div class="form-grid">
+
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Inspection Title
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="title"
+              placeholder="Example: Structural safety inspection"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Inspection Type
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="inspectionType"
+            >
+
+              <option value="">
+                Select Type
+              </option>
+
+              <option value="Structural">
+                Structural
+              </option>
+
+              <option value="Electrical">
+                Electrical
+              </option>
+
+              <option value="Fire Safety">
+                Fire Safety
+              </option>
+
+              <option value="Plumbing">
+                Plumbing
+              </option>
+
+              <option value="General Safety">
+                General Safety
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Property
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="property"
+            >
+
+              <option value="">
+                Select Property
+              </option>
+
+              <option value="Greenwood Apartments">
+                Greenwood Apartments
+              </option>
+
+              <option value="Lakeview Towers">
+                Lakeview Towers
+              </option>
+
+              <option value="Palm Heights">
+                Palm Heights
+              </option>
+
+              <option value="Sunrise Residency">
+                Sunrise Residency
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Description
+            </label>
+
+            <textarea
+              class="form-control textarea"
+              formControlName="description"
+              placeholder="Describe the inspection requirement..."
+            ></textarea>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Scheduled Date
+            </label>
+
+            <input
+              class="form-control"
+              type="date"
+              formControlName="scheduledDate"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Due Date
+            </label>
+
+            <input
+              class="form-control"
+              type="date"
+              formControlName="dueDate"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Priority
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="priority"
+            >
+
+              <option value="LOW">
+                Low
+              </option>
+
+              <option value="MEDIUM">
+                Medium
+              </option>
+
+              <option value="HIGH">
+                High
+              </option>
+
+              <option value="URGENT">
+                Urgent
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Source
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="sourceType"
+            >
+
+              <option value="MANUAL">
+                Manual
+              </option>
+
+              <option value="AI_LEASE_ANALYSIS">
+                AI Lease Analysis
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Contractor / Inspector
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="contractor"
+              placeholder="Assigned contractor or inspector"
+            >
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Notes
+            </label>
+
+            <textarea
+              class="form-control textarea"
+              formControlName="notes"
+              placeholder="Additional inspection notes..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeModal()"
+          >
+            Cancel
+          </button>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+
+            @if (editingInspection) {
+
+              Save Changes
+
+            } @else {
+
+              Schedule Inspection
+
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+}
+
+
+<!-- DETAILS MODAL -->
+
+@if (
+  showDetailsModal &&
+  selectedInspection
+) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeDetailsModal()"
+  >
+
+    <div
+      class="modal details-modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="eyebrow">
+            INSPECTION DETAILS
+          </span>
+
+          <h2>
+            {{ selectedInspection.title }}
+          </h2>
+
+          <p>
+            Inspection #{{ selectedInspection.id }}
+          </p>
+
+        </div>
+
+
+        <button
+          class="close-button"
+          (click)="closeDetailsModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="details-badges">
+
+        <span class="type-badge">
+          {{ selectedInspection.inspectionType }}
+        </span>
+
+        <span
+          class="status"
+          [class.scheduled]="
+            selectedInspection.status ===
+            'SCHEDULED'
+          "
+          [class.completed]="
+            selectedInspection.status ===
+            'COMPLETED'
+          "
+        >
+          {{ selectedInspection.status }}
+        </span>
+
+      </div>
+
+
+      <div class="description-box">
+
+        <span>
+          DESCRIPTION
+        </span>
+
+        <p>
+          {{ selectedInspection.description }}
+        </p>
+
+      </div>
+
+
+      @if (
+        selectedInspection.sourceType ===
+        'AI_LEASE_ANALYSIS'
+      ) {
+
+        <div class="ai-source-box">
+
+          <span class="ai-symbol">
+            ✦
+          </span>
+
+          <div>
+
+            <strong>
+              AI-Generated Inspection
+            </strong>
+
+            <p>
+              This inspection was created from a
+              deadline detected during lease
+              compliance analysis.
+            </p>
+
+          </div>
+
+        </div>
+
+      }
+
+
+      <div class="details-grid">
+
+        <div class="detail-box">
+
+          <span>
+            Property
+          </span>
+
+          <strong>
+            {{ selectedInspection.property }}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <span>
+            Priority
+          </span>
+
+          <strong>
+            {{ selectedInspection.priority }}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <span>
+            Scheduled
+          </span>
+
+          <strong>
+            {{ selectedInspection.scheduledDate }}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <span>
+            Due Date
+          </span>
+
+          <strong>
+            {{ selectedInspection.dueDate }}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <span>
+            Contractor
+          </span>
+
+          <strong>
+            {{ selectedInspection.contractor }}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <span>
+            Source
+          </span>
+
+          <strong>
+            {{ selectedInspection.sourceType }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="notes-box">
+
+        <span>
+          NOTES
+        </span>
+
+        <p>
+          {{ selectedInspection.notes }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

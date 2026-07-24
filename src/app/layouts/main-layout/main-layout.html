@@ -1,0 +1,27 @@
+<div class="app-layout">
+
+  <app-sidebar
+    [collapsed]="sidebarCollapsed"
+    [mobileOpen]="mobileSidebarOpen"
+    (toggleSidebar)="toggleSidebar()"
+    (closeMobile)="closeMobileSidebar()"
+  ></app-sidebar>
+
+
+  <app-navbar
+    class="navbar-shell"
+    [class.sidebar-collapsed]="sidebarCollapsed"
+    (menuClick)="toggleMobileSidebar()"
+  ></app-navbar>
+
+
+  <main
+    class="main-content"
+    [class.sidebar-collapsed]="sidebarCollapsed"
+  >
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>

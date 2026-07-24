@@ -1,0 +1,772 @@
+<div class="compliance-page fade-up">
+
+  <!-- HEADER -->
+
+  <div class="page-header">
+
+    <div>
+
+      <span class="eyebrow">
+        AI COMPLIANCE CENTER
+      </span>
+
+      <h1>
+        Compliance
+      </h1>
+
+      <p>
+        Review AI-detected lease risks, clauses,
+        deadlines and compliance issues.
+      </p>
+
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="runAnalysis()"
+    >
+      ✦ Analyze Lease
+    </button>
+
+  </div>
+
+
+  <!-- SUMMARY -->
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+
+      <div class="summary-icon purple">
+        ✦
+      </div>
+
+      <div>
+
+        <span>
+          Compliance Score
+        </span>
+
+        <strong>
+          92%
+        </strong>
+
+        <small class="success">
+          Excellent portfolio health
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon red">
+        !
+      </div>
+
+      <div>
+
+        <span>
+          High Risk Issues
+        </span>
+
+        <strong>
+          {{ highRiskCount }}
+        </strong>
+
+        <small class="danger">
+          Immediate review
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon orange">
+        R
+      </div>
+
+      <div>
+
+        <span>
+          Pending Review
+        </span>
+
+        <strong>
+          {{ pendingCount }}
+        </strong>
+
+        <small class="warning-text">
+          Requires attention
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon green">
+        ✓
+      </div>
+
+      <div>
+
+        <span>
+          Reviewed
+        </span>
+
+        <strong>
+          {{ reviewedCount }}
+        </strong>
+
+        <small class="success">
+          Issues resolved
+        </small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- AI OVERVIEW -->
+
+  <section class="overview-grid">
+
+    <div class="dashboard-card health-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>
+            Portfolio Compliance Health
+          </h3>
+
+          <p>
+            AI-generated risk assessment
+          </p>
+        </div>
+
+        <span class="ai-badge">
+          ✦ AI Analysis
+        </span>
+
+      </div>
+
+
+      <div class="health-content">
+
+        <div class="score-ring">
+
+          <div class="score-inner">
+
+            <strong>
+              92
+            </strong>
+
+            <span>
+              /100
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="health-details">
+
+          <span class="health-label">
+            OVERALL HEALTH
+          </span>
+
+          <h2>
+            Excellent
+          </h2>
+
+          <p>
+            Most lease agreements meet expected
+            compliance standards. A small number
+            of clauses require manual review.
+          </p>
+
+
+          <div class="health-progress">
+
+            <div class="health-progress-bar">
+            </div>
+
+          </div>
+
+
+          <div class="health-scale">
+
+            <span>
+              High Risk
+            </span>
+
+            <span>
+              Excellent
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- RISK BREAKDOWN -->
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>
+            Risk Breakdown
+          </h3>
+
+          <p>
+            Detected compliance severity
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="risk-list">
+
+        <div class="risk-item">
+
+          <div class="risk-info">
+
+            <span class="risk-dot high">
+            </span>
+
+            <div>
+              <strong>
+                High Risk
+              </strong>
+
+              <span>
+                Immediate review
+              </span>
+            </div>
+
+          </div>
+
+          <strong>
+            {{ highRiskCount }}
+          </strong>
+
+        </div>
+
+
+        <div class="risk-item">
+
+          <div class="risk-info">
+
+            <span class="risk-dot medium">
+            </span>
+
+            <div>
+              <strong>
+                Medium Risk
+              </strong>
+
+              <span>
+                Needs attention
+              </span>
+            </div>
+
+          </div>
+
+          <strong>
+            2
+          </strong>
+
+        </div>
+
+
+        <div class="risk-item">
+
+          <div class="risk-info">
+
+            <span class="risk-dot low">
+            </span>
+
+            <div>
+              <strong>
+                Low Risk
+              </strong>
+
+              <span>
+                Minor issue
+              </span>
+            </div>
+
+          </div>
+
+          <strong>
+            1
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ISSUES -->
+
+  <section class="issues-card">
+
+    <div class="section-header">
+
+      <div>
+
+        <h3>
+          Flagged Compliance Issues
+        </h3>
+
+        <p>
+          Clauses and deadlines detected during
+          lease analysis.
+        </p>
+
+      </div>
+
+
+      <select
+        class="filter-select"
+        (change)="onSeverityChange($event)"
+      >
+
+        <option value="ALL">
+          All Severity
+        </option>
+
+        <option value="HIGH">
+          High Risk
+        </option>
+
+        <option value="MEDIUM">
+          Medium Risk
+        </option>
+
+        <option value="LOW">
+          Low Risk
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="issues-list">
+
+      @for (
+        issue of filteredIssues;
+        track issue.id
+      ) {
+
+        <div class="issue-item">
+
+          <div
+            class="severity-line"
+            [class.high]="issue.severity === 'HIGH'"
+            [class.medium]="issue.severity === 'MEDIUM'"
+            [class.low]="issue.severity === 'LOW'"
+          >
+          </div>
+
+
+          <div class="issue-content">
+
+            <div class="issue-top">
+
+              <div>
+
+                <div class="badges">
+
+                  <span
+                    class="severity-badge"
+                    [class.high]="issue.severity === 'HIGH'"
+                    [class.medium]="issue.severity === 'MEDIUM'"
+                    [class.low]="issue.severity === 'LOW'"
+                  >
+                    {{ issue.severity }}
+                  </span>
+
+                  <span class="category-badge">
+                    {{ issue.category }}
+                  </span>
+
+                </div>
+
+
+                <h4>
+                  {{ issue.title }}
+                </h4>
+
+
+                <p class="property">
+                  {{ issue.lease }}
+                  ·
+                  {{ issue.property }}
+                </p>
+
+              </div>
+
+
+              <span
+                class="review-status"
+                [class.reviewed]="
+                  issue.status === 'REVIEWED'
+                "
+              >
+
+                {{ issue.status }}
+
+              </span>
+
+            </div>
+
+
+            <div class="clause-preview">
+
+              <span>
+                DETECTED CLAUSE
+              </span>
+
+              <p>
+                "{{ issue.clause }}"
+              </p>
+
+            </div>
+
+
+            <div class="issue-footer">
+
+              <span class="ai-detected">
+                ✦ AI detected issue
+              </span>
+
+              <button
+                class="review-button"
+                (click)="openIssue(issue)"
+              >
+
+                @if (issue.status === 'REVIEWED') {
+                  View Details
+                } @else {
+                  Review Issue →
+                }
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+
+  <!-- RECENT ANALYSES -->
+
+  <section class="analysis-card">
+
+    <div class="section-header">
+
+      <div>
+
+        <h3>
+          Recent Lease Analyses
+        </h3>
+
+        <p>
+          Latest AI compliance scans.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              LEASE
+            </th>
+
+            <th>
+              PROPERTY
+            </th>
+
+            <th>
+              SCORE
+            </th>
+
+            <th>
+              ISSUES
+            </th>
+
+            <th>
+              STATUS
+            </th>
+
+            <th>
+              ANALYZED
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (
+            analysis of analyses;
+            track analysis.id
+          ) {
+
+            <tr>
+
+              <td>
+                <strong class="lease-name">
+                  {{ analysis.lease }}
+                </strong>
+              </td>
+
+              <td>
+                <span class="table-text">
+                  {{ analysis.property }}
+                </span>
+              </td>
+
+              <td>
+
+                <div
+                  class="score"
+                  [ngClass]="
+                    getScoreClass(
+                      analysis.score
+                    )
+                  "
+                >
+                  {{ analysis.score }}
+                </div>
+
+              </td>
+
+              <td>
+
+                <span class="issue-count">
+                  {{ analysis.issues }}
+                </span>
+
+              </td>
+
+              <td>
+
+                <span class="analysis-status">
+                  {{ analysis.status }}
+                </span>
+
+              </td>
+
+              <td>
+
+                <span class="table-text">
+                  {{ analysis.analyzedDate }}
+                </span>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<!-- ISSUE DETAILS MODAL -->
+
+@if (
+  showDetailsModal &&
+  selectedIssue
+) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeIssue()"
+  >
+
+    <div
+      class="modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="eyebrow">
+            COMPLIANCE REVIEW
+          </span>
+
+          <h2>
+            {{ selectedIssue.title }}
+          </h2>
+
+          <p>
+            {{ selectedIssue.lease }}
+            ·
+            {{ selectedIssue.property }}
+          </p>
+
+        </div>
+
+
+        <button
+          class="close-button"
+          (click)="closeIssue()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-badges">
+
+        <span
+          class="severity-badge"
+          [class.high]="
+            selectedIssue.severity === 'HIGH'
+          "
+          [class.medium]="
+            selectedIssue.severity === 'MEDIUM'
+          "
+          [class.low]="
+            selectedIssue.severity === 'LOW'
+          "
+        >
+          {{ selectedIssue.severity }}
+        </span>
+
+        <span class="category-badge">
+          {{ selectedIssue.category }}
+        </span>
+
+      </div>
+
+
+      <div class="detail-section">
+
+        <span>
+          DETECTED LEASE CLAUSE
+        </span>
+
+        <div class="clause-box">
+          "{{ selectedIssue.clause }}"
+        </div>
+
+      </div>
+
+
+      <div class="recommendation-box">
+
+        <div class="recommendation-icon">
+          ✦
+        </div>
+
+        <div>
+
+          <strong>
+            AI Recommendation
+          </strong>
+
+          <p>
+            {{ selectedIssue.recommendation }}
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="ai-warning">
+
+        AI-generated compliance insights should
+        support, not replace, professional legal
+        review.
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="btn btn-secondary"
+          (click)="closeIssue()"
+        >
+          Close
+        </button>
+
+
+        @if (
+          selectedIssue.status ===
+          'PENDING'
+        ) {
+
+          <button
+            class="btn btn-primary"
+            (click)="markReviewed()"
+          >
+            ✓ Mark as Reviewed
+          </button>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

@@ -1,0 +1,533 @@
+<div class="dashboard-page fade-up">
+
+  <!-- HEADER -->
+
+  <div class="dashboard-header">
+
+    <div>
+      <span class="eyebrow">OVERVIEW</span>
+
+      <h1>Good morning, Admin</h1>
+
+      <p>
+        Here's what's happening across your property portfolio today.
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-secondary">
+        Upload Lease
+      </button>
+
+      <button class="btn btn-primary">
+        + Add Property
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- STATS -->
+
+  <section class="stats-grid">
+
+    @for (stat of stats; track stat.title) {
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <div
+            class="stat-icon"
+            [ngClass]="stat.type"
+          >
+            {{ stat.icon }}
+          </div>
+
+          <span class="trend-icon">
+            ↗
+          </span>
+
+        </div>
+
+        <span class="stat-title">
+          {{ stat.title }}
+        </span>
+
+        <strong class="stat-value">
+          {{ stat.value }}
+        </strong>
+
+        <span
+          class="stat-change"
+          [ngClass]="stat.type"
+        >
+          {{ stat.change }}
+        </span>
+
+      </div>
+
+    }
+
+  </section>
+
+
+  <!-- MAIN ANALYTICS -->
+
+  <section class="analytics-grid">
+
+    <!-- OCCUPANCY -->
+
+    <div class="dashboard-card occupancy-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Portfolio Overview</h3>
+          <p>Occupancy performance</p>
+        </div>
+
+        <select>
+          <option>This Month</option>
+          <option>Last Month</option>
+          <option>This Year</option>
+        </select>
+
+      </div>
+
+
+      <div class="occupancy-summary">
+
+        <div>
+          <strong>94.2%</strong>
+          <span>Overall Occupancy</span>
+        </div>
+
+        <div class="occupancy-growth">
+          ↗ 2.4%
+        </div>
+
+      </div>
+
+
+      <div class="chart">
+
+        <div class="chart-lines">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="bars">
+
+          <div class="bar-item">
+            <div class="bar" style="height: 62%"></div>
+            <span>Jan</span>
+          </div>
+
+          <div class="bar-item">
+            <div class="bar" style="height: 72%"></div>
+            <span>Feb</span>
+          </div>
+
+          <div class="bar-item">
+            <div class="bar" style="height: 68%"></div>
+            <span>Mar</span>
+          </div>
+
+          <div class="bar-item">
+            <div class="bar" style="height: 82%"></div>
+            <span>Apr</span>
+          </div>
+
+          <div class="bar-item">
+            <div class="bar" style="height: 88%"></div>
+            <span>May</span>
+          </div>
+
+          <div class="bar-item">
+            <div class="bar active" style="height: 94%"></div>
+            <span>Jun</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- COMPLIANCE -->
+
+    <div class="dashboard-card compliance-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Compliance Health</h3>
+          <p>Portfolio risk overview</p>
+        </div>
+
+        <button class="more-button">
+          ⋯
+        </button>
+
+      </div>
+
+
+      <div class="compliance-score">
+
+        <div class="score-ring">
+
+          <div class="score-inner">
+            <strong>92</strong>
+            <span>/100</span>
+          </div>
+
+        </div>
+
+        <strong>Excellent</strong>
+
+        <p>
+          Your portfolio is in good standing.
+        </p>
+
+      </div>
+
+
+      <div class="risk-list">
+
+        <div class="risk-row">
+
+          <div>
+            <span class="risk-dot low"></span>
+            Low Risk
+          </div>
+
+          <strong>18</strong>
+
+        </div>
+
+        <div class="risk-row">
+
+          <div>
+            <span class="risk-dot medium"></span>
+            Needs Review
+          </div>
+
+          <strong>4</strong>
+
+        </div>
+
+        <div class="risk-row">
+
+          <div>
+            <span class="risk-dot high"></span>
+            High Risk
+          </div>
+
+          <strong>2</strong>
+
+        </div>
+
+      </div>
+
+      <button class="view-button">
+        View Compliance Center →
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- SECOND ROW -->
+
+  <section class="information-grid">
+
+    <!-- MAINTENANCE -->
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Maintenance Queue</h3>
+          <p>Requests requiring attention</p>
+        </div>
+
+        <button class="text-button">
+          View all
+        </button>
+
+      </div>
+
+
+      <div class="list">
+
+        @for (item of maintenance; track item.title) {
+
+          <div class="list-item">
+
+            <div class="item-icon maintenance-icon">
+              M
+            </div>
+
+            <div class="item-content">
+
+              <strong>
+                {{ item.title }}
+              </strong>
+
+              <span>
+                {{ item.property }}
+              </span>
+
+            </div>
+
+            <span
+              class="priority"
+              [class.high]="item.priority === 'HIGH'"
+              [class.medium]="item.priority === 'MEDIUM'"
+              [class.low]="item.priority === 'LOW'"
+            >
+              {{ item.priority }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+
+    <!-- LEASE DEADLINES -->
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Lease Deadlines</h3>
+          <p>Upcoming important dates</p>
+        </div>
+
+        <button class="text-button">
+          View all
+        </button>
+
+      </div>
+
+
+      <div class="list">
+
+        @for (deadline of deadlines; track deadline.title) {
+
+          <div class="list-item">
+
+            <div class="date-box">
+
+              <strong>
+                {{ deadline.date.split(' ')[1] }}
+              </strong>
+
+              <span>
+                {{ deadline.date.split(' ')[0] }}
+              </span>
+
+            </div>
+
+            <div class="item-content">
+
+              <strong>
+                {{ deadline.title }}
+              </strong>
+
+              <span>
+                {{ deadline.property }}
+              </span>
+
+            </div>
+
+            <span class="days-left">
+              {{ deadline.days }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- THIRD ROW -->
+
+  <section class="bottom-grid">
+
+    <!-- INSPECTIONS -->
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Upcoming Inspections</h3>
+          <p>Your scheduled property inspections</p>
+        </div>
+
+        <button class="text-button">
+          View calendar
+        </button>
+
+       
+
+      </div>
+
+
+      <div class="inspection-list">
+
+        @for (
+          inspection of inspections;
+          track inspection.type
+        ) {
+
+          <div class="inspection-item">
+
+            <div class="inspection-date">
+
+              <span>
+                {{ inspection.date.split(' ')[0] }}
+              </span>
+
+              <strong>
+                {{ inspection.date.split(' ')[1] }}
+              </strong>
+
+            </div>
+
+            <div class="item-content">
+
+              <strong>
+                {{ inspection.type }}
+              </strong>
+
+              <span>
+                {{ inspection.property }}
+              </span>
+
+            </div>
+
+            <span class="scheduled-badge">
+              {{ inspection.status }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="dashboard-card quick-actions-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Quick Actions</h3>
+          <p>Common workspace actions</p>
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        <button class="quick-action">
+
+          <div class="quick-icon purple">
+            +
+          </div>
+
+          <div>
+            <strong>Add Property</strong>
+            <span>Create a property</span>
+          </div>
+
+          <span class="action-arrow">
+            →
+          </span>
+
+        </button>
+
+
+        <button class="quick-action">
+
+          <div class="quick-icon blue">
+            ↑
+          </div>
+
+          <div>
+            <strong>Upload Lease</strong>
+            <span>Analyze a document</span>
+          </div>
+
+          <span class="action-arrow">
+            →
+          </span>
+
+        </button>
+
+
+        <button class="quick-action">
+
+          <div class="quick-icon orange">
+            M
+          </div>
+
+          <div>
+            <strong>Maintenance</strong>
+            <span>Create a request</span>
+          </div>
+
+          <span class="action-arrow">
+            →
+          </span>
+
+        </button>
+
+
+        <button class="quick-action">
+
+          <div class="quick-icon green">
+            I
+          </div>
+
+          <div>
+            <strong>Inspection</strong>
+            <span>Schedule inspection</span>
+          </div>
+
+          <span class="action-arrow">
+            →
+          </span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

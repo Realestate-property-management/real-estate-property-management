@@ -1,0 +1,238 @@
+<div class="signup-page">
+
+  <section class="signup-intro">
+
+    <a routerLink="/" class="brand">
+      <div class="brand-icon">PA</div>
+      <span>PropAudit</span>
+    </a>
+
+    <div class="intro-content fade-up">
+
+      <span class="eyebrow-light">
+        GET STARTED
+      </span>
+
+      <h1>
+        A smarter way to manage
+        <span>every property.</span>
+      </h1>
+
+      <p>
+        Bring leases, compliance, maintenance and inspections
+        together in one intelligent property-management workspace.
+      </p>
+
+      <div class="steps">
+
+        <div class="step">
+          <strong>01</strong>
+          <div>
+            <h4>Create your workspace</h4>
+            <p>Set up your PropAudit account.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <strong>02</strong>
+          <div>
+            <h4>Add your properties</h4>
+            <p>Organize your portfolio and tenants.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <strong>03</strong>
+          <div>
+            <h4>Automate compliance</h4>
+            <p>Upload leases and track important actions.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="signup-form-section">
+
+    <div class="signup-form-wrapper fade-up">
+
+      <div class="form-heading">
+        <h2>Create your account</h2>
+
+        <p>
+          Start managing your properties smarter.
+        </p>
+      </div>
+
+      <form
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+      >
+
+        <div class="form-grid">
+
+          <div class="form-group full-width">
+
+            <label class="form-label">
+              Full Name
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="fullName"
+              placeholder="Enter your full name"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Email Address
+            </label>
+
+            <input
+              class="form-control"
+              type="email"
+              formControlName="email"
+              placeholder="you@example.com"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Phone Number
+            </label>
+
+            <input
+              class="form-control"
+              type="tel"
+              formControlName="phone"
+              placeholder="9876543210"
+            >
+
+          </div>
+
+
+          <div class="form-group full-width">
+
+            <label class="form-label">
+              Role
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="role"
+            >
+              <option value="PROPERTY_MANAGER">
+                Property Manager
+              </option>
+
+              <option value="LEASING_AGENT">
+                Leasing Agent
+              </option>
+
+              <option value="ADMIN">
+                Admin
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Password
+            </label>
+
+            <div class="password-wrapper">
+
+              <input
+                class="form-control"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Minimum 6 characters"
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                (click)="togglePassword()"
+              >
+                {{ showPassword ? 'Hide' : 'Show' }}
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Confirm Password
+            </label>
+
+            <input
+              class="form-control"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              placeholder="Repeat password"
+            >
+
+          </div>
+
+        </div>
+
+
+        <label class="terms">
+
+          <input
+            type="checkbox"
+            formControlName="terms"
+          >
+
+          <span>
+            I agree to the Terms of Service and Privacy Policy.
+          </span>
+
+        </label>
+
+
+        <button
+          type="submit"
+          class="btn btn-primary signup-button"
+        >
+          Create Account
+          <span>→</span>
+        </button>
+
+      </form>
+
+
+      <div class="login-text">
+
+        Already have an account?
+
+        <a routerLink="/login">
+          Sign In
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
