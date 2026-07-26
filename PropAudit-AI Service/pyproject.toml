@@ -1,0 +1,19 @@
+[project]
+name = "propaudit-genai"
+version = "0.1.0"
+description = "GenAI-only lease extraction, analysis, and maintenance workflow code"
+requires-python = ">=3.11"
+dependencies = [
+    "boto3>=1.34",
+    "fastapi>=0.112",
+    "langchain-text-splitters>=0.2",
+    "langchain-ollama>=0.1",
+    "pydantic>=2.7",
+    "pypdf>=4.2",
+    "python-dotenv>=1.0",
+    "requests>=2.32",
+    "uvicorn[standard]>=0.30",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
