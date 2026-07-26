@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import com.example.demo.models.MaintenanceRequest;
 import com.example.demo.service.MaintenanceRequestService;
 
@@ -17,7 +19,9 @@ public class MaintenanceRequestController {
     private MaintenanceRequestService maintenanceRequestService;
 
     @PostMapping
-    public MaintenanceRequest saveMaintenanceRequest(@RequestBody MaintenanceRequest request) {
+    public MaintenanceRequest saveMaintenanceRequest(
+            @Valid @RequestBody MaintenanceRequest request) {
+
         return maintenanceRequestService.saveMaintenanceRequest(request);
     }
 
@@ -32,18 +36,21 @@ public class MaintenanceRequestController {
     }
 
     @PutMapping("/{id}")
-    public MaintenanceRequest updateMaintenanceRequest(@PathVariable Long id,
-                                                       @RequestBody MaintenanceRequest request) {
+    public MaintenanceRequest updateMaintenanceRequest(
+            @PathVariable Long id,
+            @Valid @RequestBody MaintenanceRequest request) {
+
         return maintenanceRequestService.updateMaintenanceRequest(id, request);
     }
 
     @DeleteMapping("/{id}")
     public String deleteMaintenanceRequest(@PathVariable Long id) {
+
         maintenanceRequestService.deleteMaintenanceRequest(id);
+
         return "Maintenance Request deleted successfully.";
     }
 
-  
     @PatchMapping("/{id}/status")
     public MaintenanceRequest updateStatus(
             @PathVariable Long id,

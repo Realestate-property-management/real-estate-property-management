@@ -1,6 +1,12 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -13,38 +19,57 @@ public class Lease {
     @Column(name = "lease_id")
     private Long leaseId;
 
+    @NotBlank(message = "Lease number is required")
+    @Size(max = 50, message = "Lease number cannot exceed 50 characters")
     @Column(name = "lease_number", unique = true, nullable = false)
     private String leaseNumber;
 
+    @NotNull(message = "Property is required")
     @ManyToOne
     @JoinColumn(name = "property_id")
     private Property property;
 
+    @NotNull(message = "Tenant is required")
     @ManyToOne
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
+    @NotBlank(message = "Unit number is required")
+    @Size(max = 20, message = "Unit number cannot exceed 20 characters")
     @Column(name = "unit_number")
     private String unitNumber;
 
+    @NotNull(message = "Lease start date is required")
     @Column(name = "start_date")
     private LocalDate startDate;
 
+    @NotNull(message = "Lease end date is required")
     @Column(name = "end_date")
     private LocalDate endDate;
 
+    @NotNull(message = "Monthly rent is required")
+    @Positive(message = "Monthly rent must be greater than zero")
     @Column(name = "monthly_rent")
     private Double monthlyRent;
 
+    @NotNull(message = "Security deposit is required")
+    @Min(value = 0, message = "Security deposit cannot be negative")
     @Column(name = "security_deposit")
     private Double securityDeposit;
 
+    @NotBlank(message = "Lease status is required")
     @Column(name = "lease_status")
     private String leaseStatus;
 
+    @NotBlank(message = "Analysis status is required")
     @Column(name = "analysis_status")
     private String analysisStatus;
 
+    @Size(max = 1000, message = "Lease document URL cannot exceed 1000 characters")
+    @Column(name = "lease_document_url", length = 1000)
+    private String leaseDocumentUrl;
+
+    @NotNull(message = "Created By user is required")
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User createdBy;
@@ -60,11 +85,19 @@ public class Lease {
     }
 
     // Parameterized Constructor
-    public Lease(Long leaseId, String leaseNumber, Property property,
-                 Tenant tenant, String unitNumber, LocalDate startDate,
-                 LocalDate endDate, Double monthlyRent,
-                 Double securityDeposit, String leaseStatus,
-                 String analysisStatus, User createdBy,
+    public Lease(Long leaseId,
+                 String leaseNumber,
+                 Property property,
+                 Tenant tenant,
+                 String unitNumber,
+                 LocalDate startDate,
+                 LocalDate endDate,
+                 Double monthlyRent,
+                 Double securityDeposit,
+                 String leaseStatus,
+                 String analysisStatus,
+                 String leaseDocumentUrl,
+                 User createdBy,
                  LocalDateTime createdAt,
                  LocalDateTime updatedAt) {
 
@@ -79,6 +112,7 @@ public class Lease {
         this.securityDeposit = securityDeposit;
         this.leaseStatus = leaseStatus;
         this.analysisStatus = analysisStatus;
+        this.leaseDocumentUrl = leaseDocumentUrl;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -172,6 +206,14 @@ public class Lease {
 
     public void setAnalysisStatus(String analysisStatus) {
         this.analysisStatus = analysisStatus;
+    }
+
+    public String getLeaseDocumentUrl() {
+        return leaseDocumentUrl;
+    }
+
+    public void setLeaseDocumentUrl(String leaseDocumentUrl) {
+        this.leaseDocumentUrl = leaseDocumentUrl;
     }
 
     public User getCreatedBy() {

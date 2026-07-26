@@ -1,6 +1,8 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,27 +14,40 @@ public class Contractor {
     @Column(name = "contractor_id")
     private Long contractorId;
 
+    @NotBlank(message = "Company name is required")
+    @Size(max = 100, message = "Company name cannot exceed 100 characters")
     @Column(name = "company_name")
     private String companyName;
 
+    @NotBlank(message = "Contact person is required")
+    @Size(max = 100, message = "Contact person cannot exceed 100 characters")
     @Column(name = "contact_person")
     private String contactPerson;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Enter a valid email address")
     @Column(name = "email")
     private String email;
 
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must contain exactly 10 digits")
     @Column(name = "phone")
     private String phone;
 
+    @NotBlank(message = "Service type is required")
     @Column(name = "service_type")
     private String serviceType;
 
+    @NotBlank(message = "Address is required")
     @Column(name = "address")
     private String address;
 
+    @DecimalMin(value = "0.0", message = "Rating cannot be less than 0")
+    @DecimalMax(value = "5.0", message = "Rating cannot be greater than 5")
     @Column(name = "rating")
     private Double rating;
 
+    @NotBlank(message = "Status is required")
     @Column(name = "status")
     private String status;
 

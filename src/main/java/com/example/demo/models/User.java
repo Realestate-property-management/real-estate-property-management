@@ -1,6 +1,11 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,24 +17,36 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @NotBlank(message = "Full name is required")
+    @Size(max = 100, message = "Full name cannot exceed 100 characters")
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Enter a valid email address")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must contain at least 6 characters")
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Pattern(
+        regexp = "^[6-9]\\d{9}$",
+        message = "Enter a valid 10-digit mobile number"
+    )
     @Column(name = "phone")
     private String phone;
 
+    @NotBlank(message = "Role is required")
     @Column(name = "role")
     private String role;
 
     @Column(name = "profile_image")
     private String profileImage;
 
+    @NotBlank(message = "Status is required")
     @Column(name = "status")
     private String status;
 
@@ -44,10 +61,17 @@ public class User {
     }
 
     // Parameterized Constructor
-    public User(Long userId, String fullName, String email, String password,
-                String phone, String role, String profileImage,
-                String status, LocalDateTime createdAt,
+    public User(Long userId,
+                String fullName,
+                String email,
+                String password,
+                String phone,
+                String role,
+                String profileImage,
+                String status,
+                LocalDateTime createdAt,
                 LocalDateTime updatedAt) {
+
         this.userId = userId;
         this.fullName = fullName;
         this.email = email;

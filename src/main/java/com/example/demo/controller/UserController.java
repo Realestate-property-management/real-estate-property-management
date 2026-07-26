@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import com.example.demo.models.User;
 import com.example.demo.service.UserService;
 
@@ -18,7 +20,7 @@ public class UserController {
 
     // Create User
     @PostMapping
-    public User saveUser(@RequestBody User user) {
+    public User saveUser(@Valid @RequestBody User user) {
         return userService.saveUser(user);
     }
 
@@ -37,7 +39,7 @@ public class UserController {
     // Update User
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id,
-                           @RequestBody User user) {
+                           @Valid @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
@@ -47,5 +49,4 @@ public class UserController {
         userService.deleteUser(id);
         return "User deleted successfully.";
     }
-
 }

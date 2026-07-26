@@ -1,6 +1,11 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -13,27 +18,44 @@ public class Tenant {
     @Column(name = "tenant_id")
     private Long tenantId;
 
+    @NotBlank(message = "First name is required")
+    @Size(max = 50, message = "First name cannot exceed 50 characters")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @NotBlank(message = "Last name is required")
+    @Size(max = 50, message = "Last name cannot exceed 50 characters")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Enter a valid email address")
     @Column(name = "email", unique = true)
     private String email;
 
+    @NotBlank(message = "Phone number is required")
+    @Pattern(
+            regexp = "^[6-9]\\d{9}$",
+            message = "Enter a valid 10-digit mobile number"
+    )
     @Column(name = "phone")
     private String phone;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @Size(max = 100, message = "Emergency contact name cannot exceed 100 characters")
     @Column(name = "emergency_contact_name")
     private String emergencyContactName;
 
+    @Pattern(
+            regexp = "^[6-9]\\d{9}$",
+            message = "Enter a valid 10-digit emergency contact number"
+    )
     @Column(name = "emergency_contact_phone")
     private String emergencyContactPhone;
 
+    @NotBlank(message = "Status is required")
     @Column(name = "status")
     private String status;
 
@@ -48,8 +70,12 @@ public class Tenant {
     }
 
     // Parameterized Constructor
-    public Tenant(Long tenantId, String firstName, String lastName,
-                  String email, String phone, LocalDate dateOfBirth,
+    public Tenant(Long tenantId,
+                  String firstName,
+                  String lastName,
+                  String email,
+                  String phone,
+                  LocalDate dateOfBirth,
                   String emergencyContactName,
                   String emergencyContactPhone,
                   String status,

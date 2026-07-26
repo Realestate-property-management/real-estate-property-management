@@ -1,6 +1,12 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,46 +18,72 @@ public class Property {
     @Column(name = "property_id")
     private Long propertyId;
 
+    @NotBlank(message = "Property name is required")
+    @Size(max = 100, message = "Property name cannot exceed 100 characters")
     @Column(name = "property_name", nullable = false)
     private String propertyName;
 
+    @NotBlank(message = "Property code is required")
+    @Size(max = 30, message = "Property code cannot exceed 30 characters")
     @Column(name = "property_code", unique = true)
     private String propertyCode;
 
+    @NotBlank(message = "Address Line 1 is required")
+    @Size(max = 255, message = "Address Line 1 cannot exceed 255 characters")
     @Column(name = "address_line1")
     private String addressLine1;
 
     @Column(name = "address_line2")
     private String addressLine2;
 
+    @NotBlank(message = "City is required")
+    @Size(max = 50, message = "City cannot exceed 50 characters")
     @Column(name = "city")
     private String city;
 
+    @NotBlank(message = "State is required")
+    @Size(max = 50, message = "State cannot exceed 50 characters")
     @Column(name = "state")
     private String state;
 
+    @NotBlank(message = "Postal code is required")
+    @Pattern(
+        regexp = "^[0-9]{6}$",
+        message = "Postal code must be a valid 6-digit PIN code"
+    )
     @Column(name = "postal_code")
     private String postalCode;
 
+    @NotBlank(message = "Country is required")
+    @Size(max = 50, message = "Country cannot exceed 50 characters")
     @Column(name = "country")
     private String country;
 
+    @NotBlank(message = "Property type is required")
+    @Size(max = 50, message = "Property type cannot exceed 50 characters")
     @Column(name = "property_type")
     private String propertyType;
 
+    @NotNull(message = "Total units is required")
+    @Min(value = 1, message = "Total units must be at least 1")
     @Column(name = "total_units")
     private Integer totalUnits;
 
+    @NotNull(message = "Occupied units is required")
+    @Min(value = 0, message = "Occupied units cannot be negative")
     @Column(name = "occupied_units")
     private Integer occupiedUnits;
 
+    @Min(value = 1800, message = "Enter a valid construction year")
     @Column(name = "year_built")
     private Integer yearBuilt;
 
+    @NotNull(message = "Property manager is required")
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private User manager;
 
+    @NotBlank(message = "Status is required")
     @Column(name = "status")
     private String status;
 
@@ -66,13 +98,23 @@ public class Property {
     }
 
     // Parameterized Constructor
-    public Property(Long propertyId, String propertyName, String propertyCode,
-                    String addressLine1, String addressLine2, String city,
-                    String state, String postalCode, String country,
-                    String propertyType, Integer totalUnits,
-                    Integer occupiedUnits, Integer yearBuilt,
-                    User manager, String status,
-                    LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Property(Long propertyId,
+                    String propertyName,
+                    String propertyCode,
+                    String addressLine1,
+                    String addressLine2,
+                    String city,
+                    String state,
+                    String postalCode,
+                    String country,
+                    String propertyType,
+                    Integer totalUnits,
+                    Integer occupiedUnits,
+                    Integer yearBuilt,
+                    User manager,
+                    String status,
+                    LocalDateTime createdAt,
+                    LocalDateTime updatedAt) {
 
         this.propertyId = propertyId;
         this.propertyName = propertyName;

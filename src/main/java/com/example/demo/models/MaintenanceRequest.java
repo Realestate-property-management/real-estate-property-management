@@ -1,6 +1,9 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,27 +15,33 @@ public class MaintenanceRequest {
     @Column(name = "request_id")
     private Long requestId;
 
+    @NotNull(message = "Property is required")
     @ManyToOne
-    @JoinColumn(name = "property_id")
+    @JoinColumn(name = "property_id", nullable = false)
     private Property property;
 
     @ManyToOne
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
-    @Column(name = "title")
+    @NotBlank(message = "Title is required")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @NotBlank(message = "Description is required")
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
 
-    @Column(name = "category")
+    @NotBlank(message = "Category is required")
+    @Column(name = "category", nullable = false)
     private String category;
 
-    @Column(name = "priority")
+    @NotBlank(message = "Priority is required")
+    @Column(name = "priority", nullable = false)
     private String priority;
 
-    @Column(name = "status")
+    @NotBlank(message = "Status is required")
+    @Column(name = "status", nullable = false)
     private String status;
 
     @ManyToOne
@@ -44,10 +53,12 @@ public class MaintenanceRequest {
 
     @Column(name = "completed_date")
     private LocalDateTime completedDate;
-
+    
+    @PositiveOrZero(message = "Estimated cost cannot be negative")
     @Column(name = "estimated_cost")
     private Double estimatedCost;
 
+    @PositiveOrZero(message = "Actual cost cannot be negative")
     @Column(name = "actual_cost")
     private Double actualCost;
 
@@ -55,17 +66,15 @@ public class MaintenanceRequest {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Default Constructor
     public MaintenanceRequest() {
     }
 
-    // Parameterized Constructor
     public MaintenanceRequest(Long requestId,
                               Property property,
                               Tenant tenant,
@@ -101,7 +110,20 @@ public class MaintenanceRequest {
         this.updatedAt = updatedAt;
     }
 
-    // Getters and Setters
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+
+        if (this.status == null || this.status.isBlank()) {
+            this.status = "Pending";
+        }
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Long getRequestId() {
         return requestId;
@@ -219,15 +241,7 @@ public class MaintenanceRequest {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
