@@ -48,26 +48,6 @@ public class LeaseDocument {
     public LeaseDocument() {
     }
 
-    // Parameterized Constructor
-    public LeaseDocument(Long documentId, Lease lease, String originalFileName,
-                         String storedFileName, String s3Bucket,
-                         String s3ObjectKey, Long fileSize,
-                         String contentType, String uploadStatus,
-                         User uploadedBy, LocalDateTime uploadedAt) {
-
-        this.documentId = documentId;
-        this.lease = lease;
-        this.originalFileName = originalFileName;
-        this.storedFileName = storedFileName;
-        this.s3Bucket = s3Bucket;
-        this.s3ObjectKey = s3ObjectKey;
-        this.fileSize = fileSize;
-        this.contentType = contentType;
-        this.uploadStatus = uploadStatus;
-        this.uploadedBy = uploadedBy;
-        this.uploadedAt = uploadedAt;
-    }
-
     // Getters and Setters
 
     public Long getDocumentId() {

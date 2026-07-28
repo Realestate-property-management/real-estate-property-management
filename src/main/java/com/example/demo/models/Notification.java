@@ -44,30 +44,6 @@ public class Notification {
     public Notification() {
     }
 
-    // Parameterized Constructor
-    public Notification(Long notificationId,
-                        User user,
-                        String title,
-                        String message,
-                        String notificationType,
-                        String referenceType,
-                        Long referenceId,
-                        Boolean isRead,
-                        LocalDateTime createdAt,
-                        LocalDateTime readAt) {
-
-        this.notificationId = notificationId;
-        this.user = user;
-        this.title = title;
-        this.message = message;
-        this.notificationType = notificationType;
-        this.referenceType = referenceType;
-        this.referenceId = referenceId;
-        this.isRead = isRead;
-        this.createdAt = createdAt;
-        this.readAt = readAt;
-    }
-
     // Getters and Setters
 
     public Long getNotificationId() {

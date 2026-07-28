@@ -65,34 +65,7 @@ public class Tenant {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Default Constructor
     public Tenant() {
-    }
-
-    // Parameterized Constructor
-    public Tenant(Long tenantId,
-                  String firstName,
-                  String lastName,
-                  String email,
-                  String phone,
-                  LocalDate dateOfBirth,
-                  String emergencyContactName,
-                  String emergencyContactPhone,
-                  String status,
-                  LocalDateTime createdAt,
-                  LocalDateTime updatedAt) {
-
-        this.tenantId = tenantId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.dateOfBirth = dateOfBirth;
-        this.emergencyContactName = emergencyContactName;
-        this.emergencyContactPhone = emergencyContactPhone;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     // Getters and Setters

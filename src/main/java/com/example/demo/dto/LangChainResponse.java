@@ -1,34 +1,39 @@
 package com.example.demo.dto;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LangChainResponse {
 
-    private String extracted_text;
+    @JsonProperty("extracted_text")
+    private String extractedText;
 
-    private List<String> text_chunks;
+    @JsonProperty("text_chunks")
+    private List<String> textChunks;
 
     private Analysis analysis;
 
-    private List<MaintenanceJob> maintenance_jobs;
+    @JsonProperty("maintenance_jobs")
+    private List<MaintenanceJob> maintenanceJobs;
 
     public LangChainResponse() {
+        // Empty constructor for serialization
     }
 
-    public String getExtracted_text() {
-        return extracted_text;
+    public String getExtractedText() {
+        return extractedText;
     }
 
-    public void setExtracted_text(String extracted_text) {
-        this.extracted_text = extracted_text;
+    public void setExtractedText(String extractedText) {
+        this.extractedText = extractedText;
     }
 
-    public List<String> getText_chunks() {
-        return text_chunks;
+    public List<String> getTextChunks() {
+        return textChunks;
     }
 
-    public void setText_chunks(List<String> text_chunks) {
-        this.text_chunks = text_chunks;
+    public void setTextChunks(List<String> textChunks) {
+        this.textChunks = textChunks;
     }
 
     public Analysis getAnalysis() {
@@ -39,12 +44,12 @@ public class LangChainResponse {
         this.analysis = analysis;
     }
 
-    public List<MaintenanceJob> getMaintenance_jobs() {
-        return maintenance_jobs;
+    public List<MaintenanceJob> getMaintenanceJobs() {
+        return maintenanceJobs;
     }
 
-    public void setMaintenance_jobs(List<MaintenanceJob> maintenance_jobs) {
-        this.maintenance_jobs = maintenance_jobs;
+    public void setMaintenanceJobs(List<MaintenanceJob> maintenanceJobs) {
+        this.maintenanceJobs = maintenanceJobs;
     }
 
 }

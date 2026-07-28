@@ -1,14 +1,19 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MaintenanceDeadline {
 
     private String description;
 
-    private String due_date;
+    @JsonProperty("due_date")
+    private String dueDate;
 
     private String priority;
 
-    public MaintenanceDeadline() {}
+    public MaintenanceDeadline() {
+        // Empty constructor for serialization
+    }
 
     public String getDescription() {
         return description;
@@ -18,12 +23,12 @@ public class MaintenanceDeadline {
         this.description = description;
     }
 
-    public String getDue_date() {
-        return due_date;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setDue_date(String due_date) {
-        this.due_date = due_date;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public String getPriority() {

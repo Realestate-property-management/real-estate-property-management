@@ -25,9 +25,15 @@ import com.example.demo.service.ComplianceAnalysisService;
 import com.example.demo.service.InspectionService;
 import com.example.demo.service.LeaseService;
 import com.example.demo.service.NotificationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.example.demo.exception.LeaseException;
 
 @Service
 public class LeaseServiceImpl implements LeaseService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LeaseServiceImpl.class);
+    private static final String NOT_FOUND_MSG = "Lease not found with ID: ";
 
     @Autowired
     private LeaseRepository leaseRepository;
@@ -63,7 +69,7 @@ public class LeaseServiceImpl implements LeaseService {
 
         Lease existingLease = leaseRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Lease not found with ID: " + id));
+                        new RuntimeException(NOT_FOUND_MSG + id));
 
         existingLease.setLeaseNumber(lease.getLeaseNumber());
         existingLease.setProperty(lease.getProperty());
@@ -87,7 +93,7 @@ public class LeaseServiceImpl implements LeaseService {
 
         Lease lease = leaseRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Lease not found with ID: " + id));
+                        new RuntimeException(NOT_FOUND_MSG + id));
 
         // Delete lease document from Amazon S3
         if (lease.getLeaseDocumentUrl() != null &&
@@ -105,7 +111,7 @@ public class LeaseServiceImpl implements LeaseService {
 
         return leaseRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Lease not found with ID: " + id));
+                        new RuntimeException(NOT_FOUND_MSG + id));
     }
 
     @Override
@@ -119,7 +125,7 @@ public class LeaseServiceImpl implements LeaseService {
 
         Lease lease = leaseRepository.findById(leaseId)
                 .orElseThrow(() ->
-                        new RuntimeException("Lease not found with ID: " + leaseId));
+                        new RuntimeException(NOT_FOUND_MSG + leaseId));
 
      // Upload PDF to Amazon S3
         String fileUrl = s3Service.uploadFile(file);
@@ -142,40 +148,35 @@ public class LeaseServiceImpl implements LeaseService {
 
         String s3Uri = "s3://" + bucketName + "/" + fileName;
 
-     // ===============================
-     // Call FastAPI
-     // ===============================
+      // ===============================
+      // Call FastAPI
+      // ===============================
 
-     System.out.println("=================================");
-     System.out.println("File URL   : " + fileUrl);
-     System.out.println("Bucket     : " + bucketName);
-     System.out.println("File Name  : " + fileName);
-     System.out.println("S3 URI     : " + s3Uri);
-     System.out.println("=================================");
+      logger.info("Call FastAPI: File URL: {}, Bucket: {}, File Name: {}, S3 URI: {}", fileUrl, bucketName, fileName, s3Uri);
 
-     Map<String, Object> aiResponse;
+      Map<String, Object> aiResponse;
 
-     try {
+      try {
 
-         aiResponse = aiAnalysisClient.analyzeLease(s3Uri);
+          aiResponse = aiAnalysisClient.analyzeLease(s3Uri);
 
-         System.out.println("AI Response = " + aiResponse);
+          logger.info("AI Response = {}", aiResponse);
 
-     } catch (Exception ex) {
+      } catch (Exception ex) {
 
-         // Update lease status as FAILED
-         lease.setAnalysisStatus("FAILED");
-         lease.setUpdatedAt(LocalDateTime.now());
+          // Update lease status as FAILED
+          lease.setAnalysisStatus("FAILED");
+          lease.setUpdatedAt(LocalDateTime.now());
 
-         leaseRepository.save(lease);
+          leaseRepository.save(lease);
 
-         ex.printStackTrace();
+          logger.error("AI lease analysis failed", ex);
 
-         throw new RuntimeException(
-                 "AI lease analysis failed: " + ex.getMessage(),
-                 ex
-         );
-     }
+          throw new LeaseException(
+                  "AI lease analysis failed: " + ex.getMessage(),
+                  ex
+          );
+      }
   // AI analysis completed successfully
      lease.setAnalysisStatus("COMPLETED");
      lease.setUpdatedAt(LocalDateTime.now());
@@ -298,11 +299,11 @@ public class LeaseServiceImpl implements LeaseService {
 
         Lease lease = leaseRepository.findById(leaseId)
                 .orElseThrow(() ->
-                        new RuntimeException("Lease not found with ID: " + leaseId));
+                        new RuntimeException(NOT_FOUND_MSG + leaseId));
 
         if (lease.getLeaseDocumentUrl() == null ||
                 lease.getLeaseDocumentUrl().isBlank()) {
-            throw new RuntimeException("No lease document uploaded.");
+            throw new LeaseException("No lease document uploaded.");
         }
 
         String fileName = extractFileName(lease.getLeaseDocumentUrl());
@@ -316,11 +317,11 @@ public class LeaseServiceImpl implements LeaseService {
 
         Lease lease = leaseRepository.findById(leaseId)
                 .orElseThrow(() ->
-                        new RuntimeException("Lease not found with ID: " + leaseId));
+                        new RuntimeException(NOT_FOUND_MSG + leaseId));
 
         if (lease.getLeaseDocumentUrl() == null ||
                 lease.getLeaseDocumentUrl().isBlank()) {
-            throw new RuntimeException("No lease document uploaded.");
+            throw new LeaseException("No lease document uploaded.");
         }
 
         String fileName = extractFileName(lease.getLeaseDocumentUrl());
@@ -338,7 +339,7 @@ public class LeaseServiceImpl implements LeaseService {
         int index = fileUrl.lastIndexOf('/');
 
         if (index == -1) {
-            throw new RuntimeException("Invalid S3 URL");
+            throw new LeaseException("Invalid S3 URL");
         }
 
         return fileUrl.substring(index + 1);

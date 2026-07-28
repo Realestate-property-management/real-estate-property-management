@@ -27,12 +27,12 @@ public class AiAnalysisClient {
         HttpEntity<Map<String, String>> entity =
                 new HttpEntity<>(request, headers);
 
-        ResponseEntity<Map> response =
+        ResponseEntity<Map<String, Object>> response =
                 restTemplate.exchange(
                         aiServiceUrl + "/process-lease",
                         HttpMethod.POST,
                         entity,
-                        Map.class);
+                        new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {});
 
         return response.getBody();
     }

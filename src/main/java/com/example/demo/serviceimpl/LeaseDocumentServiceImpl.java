@@ -27,9 +27,16 @@ import com.example.demo.repository.AuditLogRepository;
 import com.example.demo.service.LeaseDocumentService;
 import com.example.demo.integration.AiAnalysisClient;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class LeaseDocumentServiceImpl implements LeaseDocumentService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LeaseDocumentServiceImpl.class);
+    private static final String NOT_FOUND_MSG = "Lease Document not found with ID: ";
+    private static final String DEFAULT_IP = "127.0.0.1";
+    private static final String LEASE_TYPE = "LEASE";
 
     @Autowired
     private LeaseDocumentRepository leaseDocumentRepository;
@@ -65,7 +72,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
     public LeaseDocument updateLeaseDocument(Long id, LeaseDocument document) {
 
         LeaseDocument existingDocument = leaseDocumentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lease Document not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         existingDocument.setLease(document.getLease());
         existingDocument.setOriginalFileName(document.getOriginalFileName());
@@ -85,7 +92,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
     public void deleteLeaseDocument(Long id) {
 
         LeaseDocument existingDocument = leaseDocumentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lease Document not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         leaseDocumentRepository.delete(existingDocument);
     }
@@ -94,7 +101,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
     public LeaseDocument getLeaseDocumentById(Long id) {
 
         return leaseDocumentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lease Document not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
     }
 
     @Override
@@ -149,7 +156,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
         uploadLog.setEntityType("LEASE_DOCUMENT");
         uploadLog.setEntityId(savedDocument.getDocumentId());
         uploadLog.setDescription("Lease document uploaded successfully.");
-        uploadLog.setIpAddress("127.0.0.1");
+        uploadLog.setIpAddress(DEFAULT_IP);
         uploadLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(uploadLog);
@@ -176,10 +183,10 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
 
         startLog.setUser(user);
         startLog.setAction("AI_ANALYSIS_STARTED");
-        startLog.setEntityType("LEASE");
+        startLog.setEntityType(LEASE_TYPE);
         startLog.setEntityId(lease.getLeaseId());
         startLog.setDescription("AI analysis started.");
-        startLog.setIpAddress("127.0.0.1");
+        startLog.setIpAddress(DEFAULT_IP);
         startLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(startLog);
@@ -205,9 +212,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
             Map<String, Object> analysisMap =
                     (Map<String, Object>) aiResponse.get("analysis");
             
-            System.out.println("========== AI ANALYSIS ==========");
-            System.out.println(aiResponse);
-            System.out.println("================================");
+            logger.info("AI analysis response: {}", aiResponse);
 
             if (analysisMap != null && analysisMap.get("risk") != null) {
                 analysis.setOverallRisk(analysisMap.get("risk").toString());
@@ -248,7 +253,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
 
                     issue.setIssueType("AI_DETECTED");
 
-                    issue.setCategory("LEASE");
+                    issue.setCategory(LEASE_TYPE);
 
                     if (clauses != null && i < clauses.size()) {
                         issue.setClauseText(clauses.get(i));
@@ -285,7 +290,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
 
                     request.setDescription(deadline.get("description").toString());
 
-                    request.setCategory("LEASE");
+                    request.setCategory(LEASE_TYPE);
 
                     request.setPriority(deadline.get("priority").toString());
 
@@ -315,10 +320,10 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
 
             completedLog.setUser(user);
             completedLog.setAction("AI_ANALYSIS_COMPLETED");
-            completedLog.setEntityType("LEASE");
+            completedLog.setEntityType(LEASE_TYPE);
             completedLog.setEntityId(lease.getLeaseId());
             completedLog.setDescription("AI analysis completed successfully.");
-            completedLog.setIpAddress("127.0.0.1");
+            completedLog.setIpAddress(DEFAULT_IP);
             completedLog.setCreatedAt(LocalDateTime.now());
 
             auditLogRepository.save(completedLog);
@@ -328,7 +333,7 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
             completedNotification.setTitle("AI Analysis Completed");
             completedNotification.setMessage("Lease analysis completed successfully.");
             completedNotification.setNotificationType("AI_ANALYSIS");
-            completedNotification.setReferenceType("LEASE");
+            completedNotification.setReferenceType(LEASE_TYPE);
             completedNotification.setReferenceId(lease.getLeaseId());
             completedNotification.setIsRead(false);
             completedNotification.setCreatedAt(LocalDateTime.now());
@@ -344,10 +349,10 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
 
             failedLog.setUser(user);
             failedLog.setAction("AI_ANALYSIS_FAILED");
-            failedLog.setEntityType("LEASE");
+            failedLog.setEntityType(LEASE_TYPE);
             failedLog.setEntityId(lease.getLeaseId());   // ✅ Correct
             failedLog.setDescription(e.getMessage());
-            failedLog.setIpAddress("127.0.0.1");
+            failedLog.setIpAddress(DEFAULT_IP);
             failedLog.setCreatedAt(LocalDateTime.now());
 
             auditLogRepository.save(failedLog);
@@ -357,16 +362,14 @@ public class LeaseDocumentServiceImpl implements LeaseDocumentService {
             failedNotification.setTitle("AI Analysis Failed");
             failedNotification.setMessage(e.getMessage());
             failedNotification.setNotificationType("ERROR");
-            failedNotification.setReferenceType("LEASE");
+            failedNotification.setReferenceType(LEASE_TYPE);
             failedNotification.setReferenceId(lease.getLeaseId());
             failedNotification.setIsRead(false);
             failedNotification.setCreatedAt(LocalDateTime.now());
 
             notificationRepository.save(failedNotification);
 
-            System.out.println("========== AI ANALYSIS FAILED ==========");
-            e.printStackTrace();
-            System.out.println("========================================");
+            logger.error("AI analysis failed", e);
         }
 
         return savedDocument;

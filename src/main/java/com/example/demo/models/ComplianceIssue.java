@@ -62,40 +62,6 @@ public class ComplianceIssue {
     public ComplianceIssue() {
     }
 
-    // Parameterized Constructor
-    public ComplianceIssue(Long issueId,
-                           ComplianceAnalysis analysis,
-                           Lease lease,
-                           String issueType,
-                           String category,
-                           String clauseText,
-                           String aiExplanation,
-                           String recommendation,
-                           String riskLevel,
-                           Integer pageNumber,
-                           LocalDate deadlineDate,
-                           String reviewStatus,
-                           User reviewedBy,
-                           LocalDateTime reviewedAt,
-                           LocalDateTime createdAt) {
-
-        this.issueId = issueId;
-        this.analysis = analysis;
-        this.lease = lease;
-        this.issueType = issueType;
-        this.category = category;
-        this.clauseText = clauseText;
-        this.aiExplanation = aiExplanation;
-        this.recommendation = recommendation;
-        this.riskLevel = riskLevel;
-        this.pageNumber = pageNumber;
-        this.deadlineDate = deadlineDate;
-        this.reviewStatus = reviewStatus;
-        this.reviewedBy = reviewedBy;
-        this.reviewedAt = reviewedAt;
-        this.createdAt = createdAt;
-    }
-
     // Getters and Setters
 
     public Long getIssueId() {

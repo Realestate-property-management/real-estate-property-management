@@ -12,6 +12,8 @@ import com.example.demo.service.NotificationService;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
+    private static final String NOT_FOUND_MSG = "Notification not found with ID: ";
+
     @Autowired
     private NotificationRepository notificationRepository;
 
@@ -24,7 +26,7 @@ public class NotificationServiceImpl implements NotificationService {
     public Notification updateNotification(Long id, Notification notification) {
 
         Notification existingNotification = notificationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         existingNotification.setUser(notification.getUser());
         existingNotification.setTitle(notification.getTitle());
@@ -43,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void deleteNotification(Long id) {
 
         Notification notification = notificationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         notificationRepository.delete(notification);
     }
@@ -52,7 +54,7 @@ public class NotificationServiceImpl implements NotificationService {
     public Notification getNotificationById(Long id) {
 
         return notificationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
     }
 
     @Override

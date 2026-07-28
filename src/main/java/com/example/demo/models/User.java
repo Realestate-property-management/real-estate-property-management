@@ -56,32 +56,7 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Default Constructor
     public User() {
-    }
-
-    // Parameterized Constructor
-    public User(Long userId,
-                String fullName,
-                String email,
-                String password,
-                String phone,
-                String role,
-                String profileImage,
-                String status,
-                LocalDateTime createdAt,
-                LocalDateTime updatedAt) {
-
-        this.userId = userId;
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.role = role;
-        this.profileImage = profileImage;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     // Getters and Setters

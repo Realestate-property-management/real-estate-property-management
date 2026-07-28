@@ -61,32 +61,6 @@ public class Contractor {
     public Contractor() {
     }
 
-    // Parameterized Constructor
-    public Contractor(Long contractorId,
-                      String companyName,
-                      String contactPerson,
-                      String email,
-                      String phone,
-                      String serviceType,
-                      String address,
-                      Double rating,
-                      String status,
-                      LocalDateTime createdAt,
-                      LocalDateTime updatedAt) {
-
-        this.contractorId = contractorId;
-        this.companyName = companyName;
-        this.contactPerson = contactPerson;
-        this.email = email;
-        this.phone = phone;
-        this.serviceType = serviceType;
-        this.address = address;
-        this.rating = rating;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     // Getters and Setters
 
     public Long getContractorId() {

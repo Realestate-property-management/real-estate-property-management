@@ -38,26 +38,6 @@ public class AuditLog {
     public AuditLog() {
     }
 
-    // Parameterized Constructor
-    public AuditLog(Long logId,
-                    User user,
-                    String action,
-                    String entityType,
-                    Long entityId,
-                    String description,
-                    String ipAddress,
-                    LocalDateTime createdAt) {
-
-        this.logId = logId;
-        this.user = user;
-        this.action = action;
-        this.entityType = entityType;
-        this.entityId = entityId;
-        this.description = description;
-        this.ipAddress = ipAddress;
-        this.createdAt = createdAt;
-    }
-
     // Getters and Setters
 
     public Long getLogId() {

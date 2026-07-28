@@ -12,6 +12,8 @@ import com.example.demo.service.AuditLogService;
 @Service
 public class AuditLogServiceImpl implements AuditLogService {
 
+    private static final String NOT_FOUND_MSG = "Audit Log not found with ID: ";
+
     @Autowired
     private AuditLogRepository auditLogRepository;
 
@@ -24,7 +26,7 @@ public class AuditLogServiceImpl implements AuditLogService {
     public AuditLog updateAuditLog(Long id, AuditLog auditLog) {
 
         AuditLog existingAuditLog = auditLogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Audit Log not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         existingAuditLog.setUser(auditLog.getUser());
         existingAuditLog.setAction(auditLog.getAction());
@@ -41,7 +43,7 @@ public class AuditLogServiceImpl implements AuditLogService {
     public void deleteAuditLog(Long id) {
 
         AuditLog auditLog = auditLogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Audit Log not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         auditLogRepository.delete(auditLog);
     }
@@ -50,7 +52,7 @@ public class AuditLogServiceImpl implements AuditLogService {
     public AuditLog getAuditLogById(Long id) {
 
         return auditLogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Audit Log not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
     }
 
     @Override

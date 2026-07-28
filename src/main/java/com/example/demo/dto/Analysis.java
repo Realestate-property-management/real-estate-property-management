@@ -1,18 +1,24 @@
 package com.example.demo.dto;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Analysis {
 
     private String risk;
 
-    private List<String> non_standard_clauses;
+    @JsonProperty("non_standard_clauses")
+    private List<String> nonStandardClauses;
 
-    private List<String> compliance_issues;
+    @JsonProperty("compliance_issues")
+    private List<String> complianceIssues;
 
-    private List<MaintenanceDeadline> maintenance_deadlines;
+    @JsonProperty("maintenance_deadlines")
+    private List<MaintenanceDeadline> maintenanceDeadlines;
 
-    public Analysis() {}
+    public Analysis() {
+        // Empty constructor for serialization
+    }
 
     public String getRisk() {
         return risk;
@@ -22,27 +28,27 @@ public class Analysis {
         this.risk = risk;
     }
 
-    public List<String> getNon_standard_clauses() {
-        return non_standard_clauses;
+    public List<String> getNonStandardClauses() {
+        return nonStandardClauses;
     }
 
-    public void setNon_standard_clauses(List<String> non_standard_clauses) {
-        this.non_standard_clauses = non_standard_clauses;
+    public void setNonStandardClauses(List<String> nonStandardClauses) {
+        this.nonStandardClauses = nonStandardClauses;
     }
 
-    public List<String> getCompliance_issues() {
-        return compliance_issues;
+    public List<String> getComplianceIssues() {
+        return complianceIssues;
     }
 
-    public void setCompliance_issues(List<String> compliance_issues) {
-        this.compliance_issues = compliance_issues;
+    public void setComplianceIssues(List<String> complianceIssues) {
+        this.complianceIssues = complianceIssues;
     }
 
-    public List<MaintenanceDeadline> getMaintenance_deadlines() {
-        return maintenance_deadlines;
+    public List<MaintenanceDeadline> getMaintenanceDeadlines() {
+        return maintenanceDeadlines;
     }
 
-    public void setMaintenance_deadlines(List<MaintenanceDeadline> maintenance_deadlines) {
-        this.maintenance_deadlines = maintenance_deadlines;
+    public void setMaintenanceDeadlines(List<MaintenanceDeadline> maintenanceDeadlines) {
+        this.maintenanceDeadlines = maintenanceDeadlines;
     }
 }

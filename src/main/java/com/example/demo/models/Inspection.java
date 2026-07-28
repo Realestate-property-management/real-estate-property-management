@@ -61,40 +61,6 @@ public class Inspection {
     public Inspection() {
     }
 
-    // Parameterized Constructor
-    public Inspection(Long inspectionId,
-                      Property property,
-                      String inspectionType,
-                      String title,
-                      String description,
-                      LocalDateTime scheduledDate,
-                      LocalDate dueDate,
-                      String status,
-                      String priority,
-                      Contractor contractor,
-                      String sourceType,
-                      String externalEventId,
-                      String notes,
-                      LocalDateTime createdAt,
-                      LocalDateTime updatedAt) {
-
-        this.inspectionId = inspectionId;
-        this.property = property;
-        this.inspectionType = inspectionType;
-        this.title = title;
-        this.description = description;
-        this.scheduledDate = scheduledDate;
-        this.dueDate = dueDate;
-        this.status = status;
-        this.priority = priority;
-        this.contractor = contractor;
-        this.sourceType = sourceType;
-        this.externalEventId = externalEventId;
-        this.notes = notes;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     // Getters and Setters
 
     public Long getInspectionId() {

@@ -84,40 +84,6 @@ public class Lease {
     public Lease() {
     }
 
-    // Parameterized Constructor
-    public Lease(Long leaseId,
-                 String leaseNumber,
-                 Property property,
-                 Tenant tenant,
-                 String unitNumber,
-                 LocalDate startDate,
-                 LocalDate endDate,
-                 Double monthlyRent,
-                 Double securityDeposit,
-                 String leaseStatus,
-                 String analysisStatus,
-                 String leaseDocumentUrl,
-                 User createdBy,
-                 LocalDateTime createdAt,
-                 LocalDateTime updatedAt) {
-
-        this.leaseId = leaseId;
-        this.leaseNumber = leaseNumber;
-        this.property = property;
-        this.tenant = tenant;
-        this.unitNumber = unitNumber;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.monthlyRent = monthlyRent;
-        this.securityDeposit = securityDeposit;
-        this.leaseStatus = leaseStatus;
-        this.analysisStatus = analysisStatus;
-        this.leaseDocumentUrl = leaseDocumentUrl;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     // Getters and Setters
 
     public Long getLeaseId() {

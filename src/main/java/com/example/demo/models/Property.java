@@ -93,46 +93,7 @@ public class Property {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Default Constructor
     public Property() {
-    }
-
-    // Parameterized Constructor
-    public Property(Long propertyId,
-                    String propertyName,
-                    String propertyCode,
-                    String addressLine1,
-                    String addressLine2,
-                    String city,
-                    String state,
-                    String postalCode,
-                    String country,
-                    String propertyType,
-                    Integer totalUnits,
-                    Integer occupiedUnits,
-                    Integer yearBuilt,
-                    User manager,
-                    String status,
-                    LocalDateTime createdAt,
-                    LocalDateTime updatedAt) {
-
-        this.propertyId = propertyId;
-        this.propertyName = propertyName;
-        this.propertyCode = propertyCode;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-        this.country = country;
-        this.propertyType = propertyType;
-        this.totalUnits = totalUnits;
-        this.occupiedUnits = occupiedUnits;
-        this.yearBuilt = yearBuilt;
-        this.manager = manager;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     // Getters and Setters

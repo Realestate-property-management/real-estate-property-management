@@ -15,6 +15,8 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+import com.example.demo.exception.S3Exception;
+
 @Service
 public class S3ServiceImpl implements S3Service {
 
@@ -44,7 +46,7 @@ public class S3ServiceImpl implements S3Service {
             return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
 
         } catch (IOException e) {
-            throw new RuntimeException("File upload failed", e);
+            throw new S3Exception("File upload failed", e);
         }
 
     }

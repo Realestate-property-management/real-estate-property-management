@@ -12,6 +12,8 @@ import com.example.demo.service.ComplianceAnalysisService;
 @Service
 public class ComplianceAnalysisServiceImpl implements ComplianceAnalysisService {
 
+    private static final String NOT_FOUND_MSG = "Compliance Analysis not found with ID: ";
+
     @Autowired
     private ComplianceAnalysisRepository complianceAnalysisRepository;
 
@@ -24,7 +26,7 @@ public class ComplianceAnalysisServiceImpl implements ComplianceAnalysisService 
     public ComplianceAnalysis updateComplianceAnalysis(Long id, ComplianceAnalysis analysis) {
 
         ComplianceAnalysis existingAnalysis = complianceAnalysisRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compliance Analysis not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         existingAnalysis.setLease(analysis.getLease());
         existingAnalysis.setDocument(analysis.getDocument());
@@ -44,7 +46,7 @@ public class ComplianceAnalysisServiceImpl implements ComplianceAnalysisService 
     public void deleteComplianceAnalysis(Long id) {
 
         ComplianceAnalysis existingAnalysis = complianceAnalysisRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compliance Analysis not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         complianceAnalysisRepository.delete(existingAnalysis);
     }
@@ -53,7 +55,7 @@ public class ComplianceAnalysisServiceImpl implements ComplianceAnalysisService 
     public ComplianceAnalysis getComplianceAnalysisById(Long id) {
 
         return complianceAnalysisRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compliance Analysis not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
     }
 
     @Override

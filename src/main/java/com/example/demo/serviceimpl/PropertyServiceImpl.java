@@ -20,6 +20,12 @@ import com.example.demo.repository.UserRepository;
 @Service
 public class PropertyServiceImpl implements PropertyService {
 
+    private static final String USER_NOT_FOUND = "User not found";
+    private static final String PROPERTY_TYPE = "PROPERTY";
+    private static final String PROPERTY_PREFIX = "Property ";
+    private static final String DEFAULT_IP = "127.0.0.1";
+    private static final String PROPERTY_NOT_FOUND_MSG = "Property not found with ID: ";
+
     @Autowired
     private PropertyRepository propertyRepository;
     @Autowired
@@ -40,17 +46,17 @@ public class PropertyServiceImpl implements PropertyService {
         Property savedProperty = propertyRepository.save(property);
 
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
 
         // Audit Log
         AuditLog auditLog = new AuditLog();
 
         auditLog.setUser(user);
         auditLog.setAction("PROPERTY_CREATED");
-        auditLog.setEntityType("PROPERTY");
+        auditLog.setEntityType(PROPERTY_TYPE);
         auditLog.setEntityId(savedProperty.getPropertyId());
-        auditLog.setDescription("Property " + savedProperty.getPropertyName() + " created.");
-        auditLog.setIpAddress("127.0.0.1");
+        auditLog.setDescription(PROPERTY_PREFIX + savedProperty.getPropertyName() + " created.");
+        auditLog.setIpAddress(DEFAULT_IP);
         auditLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(auditLog);
@@ -61,8 +67,8 @@ public class PropertyServiceImpl implements PropertyService {
         notification.setUser(user);
         notification.setTitle("Property Added");
         notification.setMessage(savedProperty.getPropertyName() + " has been added.");
-        notification.setNotificationType("PROPERTY");
-        notification.setReferenceType("PROPERTY");
+        notification.setNotificationType(PROPERTY_TYPE);
+        notification.setReferenceType(PROPERTY_TYPE);
         notification.setReferenceId(savedProperty.getPropertyId());
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
@@ -75,7 +81,7 @@ public class PropertyServiceImpl implements PropertyService {
     public Property updateProperty(Long id, Property property) {
 
         Property existingProperty = propertyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Property not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(PROPERTY_NOT_FOUND_MSG + id));
 
         existingProperty.setPropertyName(property.getPropertyName());
         existingProperty.setPropertyCode(property.getPropertyCode());
@@ -98,7 +104,7 @@ public class PropertyServiceImpl implements PropertyService {
 
         // Temporary user (replace with logged-in user later)
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
 
         // ===========================
         // Audit Log
@@ -107,10 +113,10 @@ public class PropertyServiceImpl implements PropertyService {
 
         auditLog.setUser(user);
         auditLog.setAction("PROPERTY_UPDATED");
-        auditLog.setEntityType("PROPERTY");
+        auditLog.setEntityType(PROPERTY_TYPE);
         auditLog.setEntityId(updatedProperty.getPropertyId());
-        auditLog.setDescription("Property " + updatedProperty.getPropertyName() + " updated.");
-        auditLog.setIpAddress("127.0.0.1");
+        auditLog.setDescription(PROPERTY_PREFIX + updatedProperty.getPropertyName() + " updated.");
+        auditLog.setIpAddress(DEFAULT_IP);
         auditLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(auditLog);
@@ -123,8 +129,8 @@ public class PropertyServiceImpl implements PropertyService {
         notification.setUser(user);
         notification.setTitle("Property Updated");
         notification.setMessage(updatedProperty.getPropertyName() + " updated successfully.");
-        notification.setNotificationType("PROPERTY");
-        notification.setReferenceType("PROPERTY");
+        notification.setNotificationType(PROPERTY_TYPE);
+        notification.setReferenceType(PROPERTY_TYPE);
         notification.setReferenceId(updatedProperty.getPropertyId());
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
@@ -137,11 +143,11 @@ public class PropertyServiceImpl implements PropertyService {
     public void deleteProperty(Long id) {
 
         Property property = propertyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Property not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(PROPERTY_NOT_FOUND_MSG + id));
 
         // Temporary user (replace with logged-in user later)
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
 
         String propertyName = property.getPropertyName();
 
@@ -154,10 +160,10 @@ public class PropertyServiceImpl implements PropertyService {
 
         auditLog.setUser(user);
         auditLog.setAction("PROPERTY_DELETED");
-        auditLog.setEntityType("PROPERTY");
+        auditLog.setEntityType(PROPERTY_TYPE);
         auditLog.setEntityId(id);
-        auditLog.setDescription("Property " + propertyName + " deleted.");
-        auditLog.setIpAddress("127.0.0.1");
+        auditLog.setDescription(PROPERTY_PREFIX + propertyName + " deleted.");
+        auditLog.setIpAddress(DEFAULT_IP);
         auditLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(auditLog);
@@ -170,8 +176,8 @@ public class PropertyServiceImpl implements PropertyService {
         notification.setUser(user);
         notification.setTitle("Property Deleted");
         notification.setMessage(propertyName + " has been deleted.");
-        notification.setNotificationType("PROPERTY");
-        notification.setReferenceType("PROPERTY");
+        notification.setNotificationType(PROPERTY_TYPE);
+        notification.setReferenceType(PROPERTY_TYPE);
         notification.setReferenceId(id);
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
@@ -182,7 +188,7 @@ public class PropertyServiceImpl implements PropertyService {
     public Property getPropertyById(Long id) {
 
         return propertyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Property not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(PROPERTY_NOT_FOUND_MSG + id));
     }
 
     @Override

@@ -20,6 +20,12 @@ import com.example.demo.repository.UserRepository;
 @Service
 public class InspectionServiceImpl implements InspectionService {
 
+    private static final String USER_NOT_FOUND = "User not found";
+    private static final String INSPECTION_TYPE = "INSPECTION";
+    private static final String INSPECTION_PREFIX = "Inspection ";
+    private static final String DEFAULT_IP = "127.0.0.1";
+    private static final String INSPECTION_NOT_FOUND_MSG = "Inspection not found with ID: ";
+
     @Autowired
     private InspectionRepository inspectionRepository;
     @Autowired
@@ -42,7 +48,7 @@ public class InspectionServiceImpl implements InspectionService {
 
         // Temporary user (replace with logged-in user later)
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
 
         // ===========================
         // Audit Log
@@ -51,10 +57,10 @@ public class InspectionServiceImpl implements InspectionService {
 
         auditLog.setUser(user);
         auditLog.setAction("INSPECTION_CREATED");
-        auditLog.setEntityType("INSPECTION");
+        auditLog.setEntityType(INSPECTION_TYPE);
         auditLog.setEntityId(savedInspection.getInspectionId());
-        auditLog.setDescription("Inspection " + savedInspection.getTitle() + " created.");
-        auditLog.setIpAddress("127.0.0.1");
+        auditLog.setDescription(INSPECTION_PREFIX + savedInspection.getTitle() + " created.");
+        auditLog.setIpAddress(DEFAULT_IP);
         auditLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(auditLog);
@@ -67,8 +73,8 @@ public class InspectionServiceImpl implements InspectionService {
         notification.setUser(user);
         notification.setTitle("Inspection Scheduled");
         notification.setMessage(savedInspection.getTitle() + " has been scheduled.");
-        notification.setNotificationType("INSPECTION");
-        notification.setReferenceType("INSPECTION");
+        notification.setNotificationType(INSPECTION_TYPE);
+        notification.setReferenceType(INSPECTION_TYPE);
         notification.setReferenceId(savedInspection.getInspectionId());
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
@@ -82,7 +88,7 @@ public class InspectionServiceImpl implements InspectionService {
     public Inspection updateInspection(Long id, Inspection inspection) {
 
         Inspection existingInspection = inspectionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inspection not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(INSPECTION_NOT_FOUND_MSG + id));
 
         existingInspection.setProperty(inspection.getProperty());
         existingInspection.setInspectionType(inspection.getInspectionType());
@@ -99,12 +105,12 @@ public class InspectionServiceImpl implements InspectionService {
         existingInspection.setCreatedAt(inspection.getCreatedAt());
         existingInspection.setUpdatedAt(LocalDateTime.now());
         
-     // Save updated inspection
+        // Save updated inspection
         Inspection updatedInspection = inspectionRepository.save(existingInspection);
 
         // Temporary user (replace with logged-in user later)
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
 
         // ===========================
         // Audit Log
@@ -113,10 +119,10 @@ public class InspectionServiceImpl implements InspectionService {
 
         auditLog.setUser(user);
         auditLog.setAction("INSPECTION_UPDATED");
-        auditLog.setEntityType("INSPECTION");
+        auditLog.setEntityType(INSPECTION_TYPE);
         auditLog.setEntityId(updatedInspection.getInspectionId());
-        auditLog.setDescription("Inspection " + updatedInspection.getTitle() + " updated.");
-        auditLog.setIpAddress("127.0.0.1");
+        auditLog.setDescription(INSPECTION_PREFIX + updatedInspection.getTitle() + " updated.");
+        auditLog.setIpAddress(DEFAULT_IP);
         auditLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(auditLog);
@@ -129,8 +135,8 @@ public class InspectionServiceImpl implements InspectionService {
         notification.setUser(user);
         notification.setTitle("Inspection Updated");
         notification.setMessage(updatedInspection.getTitle() + " updated successfully.");
-        notification.setNotificationType("INSPECTION");
-        notification.setReferenceType("INSPECTION");
+        notification.setNotificationType(INSPECTION_TYPE);
+        notification.setReferenceType(INSPECTION_TYPE);
         notification.setReferenceId(updatedInspection.getInspectionId());
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
@@ -138,17 +144,17 @@ public class InspectionServiceImpl implements InspectionService {
         notificationRepository.save(notification);
 
         return updatedInspection;  
-        }
+    }
 
     @Override
     public void deleteInspection(Long id) {
 
         Inspection inspection = inspectionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inspection not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(INSPECTION_NOT_FOUND_MSG + id));
 
         // Temporary user (replace with logged-in user later)
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
 
         String inspectionTitle = inspection.getTitle();
 
@@ -161,10 +167,10 @@ public class InspectionServiceImpl implements InspectionService {
 
         auditLog.setUser(user);
         auditLog.setAction("INSPECTION_DELETED");
-        auditLog.setEntityType("INSPECTION");
+        auditLog.setEntityType(INSPECTION_TYPE);
         auditLog.setEntityId(id);
-        auditLog.setDescription("Inspection " + inspectionTitle + " deleted.");
-        auditLog.setIpAddress("127.0.0.1");
+        auditLog.setDescription(INSPECTION_PREFIX + inspectionTitle + " deleted.");
+        auditLog.setIpAddress(DEFAULT_IP);
         auditLog.setCreatedAt(LocalDateTime.now());
 
         auditLogRepository.save(auditLog);
@@ -177,8 +183,8 @@ public class InspectionServiceImpl implements InspectionService {
         notification.setUser(user);
         notification.setTitle("Inspection Deleted");
         notification.setMessage(inspectionTitle + " has been deleted.");
-        notification.setNotificationType("INSPECTION");
-        notification.setReferenceType("INSPECTION");
+        notification.setNotificationType(INSPECTION_TYPE);
+        notification.setReferenceType(INSPECTION_TYPE);
         notification.setReferenceId(id);
         notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
@@ -190,7 +196,7 @@ public class InspectionServiceImpl implements InspectionService {
     public Inspection getInspectionById(Long id) {
 
         return inspectionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inspection not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(INSPECTION_NOT_FOUND_MSG + id));
     }
 
     @Override
@@ -199,12 +205,11 @@ public class InspectionServiceImpl implements InspectionService {
         return inspectionRepository.findAll();
     }
 
-  
     @Override
     public Inspection updateStatus(Long id, String status) {
 
         Inspection inspection = inspectionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inspection not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(INSPECTION_NOT_FOUND_MSG + id));
 
         inspection.setStatus(status);
 

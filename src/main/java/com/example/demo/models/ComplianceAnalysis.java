@@ -48,31 +48,6 @@ public class ComplianceAnalysis {
     public ComplianceAnalysis() {
     }
 
-    // Parameterized Constructor
-    public ComplianceAnalysis(Long analysisId, Lease lease,
-                              LeaseDocument document,
-                              String modelName,
-                              Double complianceScore,
-                              String overallRisk,
-                              String analysisSummary,
-                              String status,
-                              LocalDateTime startedAt,
-                              LocalDateTime completedAt,
-                              LocalDateTime createdAt) {
-
-        this.analysisId = analysisId;
-        this.lease = lease;
-        this.document = document;
-        this.modelName = modelName;
-        this.complianceScore = complianceScore;
-        this.overallRisk = overallRisk;
-        this.analysisSummary = analysisSummary;
-        this.status = status;
-        this.startedAt = startedAt;
-        this.completedAt = completedAt;
-        this.createdAt = createdAt;
-    }
-
     // Getters and Setters
 
     public Long getAnalysisId() {

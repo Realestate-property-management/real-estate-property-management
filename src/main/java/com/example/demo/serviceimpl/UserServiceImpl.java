@@ -12,6 +12,8 @@ import com.example.demo.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final String NOT_FOUND_MSG = "User not found with ID: ";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -24,7 +26,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(Long id, User user) {
 
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         existingUser.setFullName(user.getFullName());
         existingUser.setEmail(user.getEmail());
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         userRepository.delete(user);
     }
@@ -51,7 +53,7 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
 
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
     }
 
     @Override

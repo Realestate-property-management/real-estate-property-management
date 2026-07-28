@@ -12,6 +12,8 @@ import com.example.demo.service.ComplianceIssueService;
 @Service
 public class ComplianceIssueServiceImpl implements ComplianceIssueService {
 
+    private static final String NOT_FOUND_MSG = "Compliance Issue not found with ID: ";
+
     @Autowired
     private ComplianceIssueRepository complianceIssueRepository;
 
@@ -24,7 +26,7 @@ public class ComplianceIssueServiceImpl implements ComplianceIssueService {
     public ComplianceIssue updateComplianceIssue(Long id, ComplianceIssue issue) {
 
         ComplianceIssue existingIssue = complianceIssueRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compliance Issue not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         existingIssue.setAnalysis(issue.getAnalysis());
         existingIssue.setLease(issue.getLease());
@@ -48,7 +50,7 @@ public class ComplianceIssueServiceImpl implements ComplianceIssueService {
     public void deleteComplianceIssue(Long id) {
 
         ComplianceIssue existingIssue = complianceIssueRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compliance Issue not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
 
         complianceIssueRepository.delete(existingIssue);
     }
@@ -57,7 +59,7 @@ public class ComplianceIssueServiceImpl implements ComplianceIssueService {
     public ComplianceIssue getComplianceIssueById(Long id) {
 
         return complianceIssueRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compliance Issue not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_MSG + id));
     }
 
     @Override

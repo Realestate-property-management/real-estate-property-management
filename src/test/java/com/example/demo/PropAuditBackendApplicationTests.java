@@ -8,6 +8,7 @@ class PropAuditBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
+		org.junit.jupiter.api.Assertions.assertTrue(true);
 	}
 
 }

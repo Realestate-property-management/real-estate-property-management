@@ -75,41 +75,6 @@ public class MaintenanceRequest {
     public MaintenanceRequest() {
     }
 
-    public MaintenanceRequest(Long requestId,
-                              Property property,
-                              Tenant tenant,
-                              String title,
-                              String description,
-                              String category,
-                              String priority,
-                              String status,
-                              Contractor contractor,
-                              LocalDateTime scheduledDate,
-                              LocalDateTime completedDate,
-                              Double estimatedCost,
-                              Double actualCost,
-                              User createdBy,
-                              LocalDateTime createdAt,
-                              LocalDateTime updatedAt) {
-
-        this.requestId = requestId;
-        this.property = property;
-        this.tenant = tenant;
-        this.title = title;
-        this.description = description;
-        this.category = category;
-        this.priority = priority;
-        this.status = status;
-        this.contractor = contractor;
-        this.scheduledDate = scheduledDate;
-        this.completedDate = completedDate;
-        this.estimatedCost = estimatedCost;
-        this.actualCost = actualCost;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
