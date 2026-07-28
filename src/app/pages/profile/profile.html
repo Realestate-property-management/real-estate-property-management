@@ -1,0 +1,318 @@
+<div class="profile-page fade-up">
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        ACCOUNT
+      </span>
+
+      <h1>Profile</h1>
+
+      <p>
+        Manage your personal and account information.
+      </p>
+    </div>
+
+    @if (!isEditing) {
+
+      <button
+        class="btn btn-primary"
+        (click)="enableEditing()"
+      >
+        Edit Profile
+      </button>
+
+    }
+
+  </div>
+
+  @if (savedMessage) {
+
+    <div class="success-message">
+      <span>✓</span>
+
+      Profile updated successfully.
+    </div>
+
+  }
+
+  <div class="profile-layout">
+
+    <!-- PROFILE CARD -->
+
+    <aside class="profile-card">
+
+      <div class="avatar">
+        {{ initials }}
+      </div>
+
+      <h2>
+        {{ fullName }}
+      </h2>
+
+      <p class="role">
+        {{ profileForm.get('role')?.value }}
+      </p>
+
+      <span class="active-badge">
+        ● Active Account
+      </span>
+
+      <div class="profile-divider"></div>
+
+      <div class="account-detail">
+
+        <span>EMAIL</span>
+
+        <strong>
+          {{ profileForm.get('email')?.value }}
+        </strong>
+
+      </div>
+
+      <div class="account-detail">
+
+        <span>COMPANY</span>
+
+        <strong>
+          {{ profileForm.get('company')?.value }}
+        </strong>
+
+      </div>
+
+      <div class="account-detail">
+
+        <span>ROLE</span>
+
+        <strong>
+          {{ profileForm.get('role')?.value }}
+        </strong>
+
+      </div>
+
+    </aside>
+
+
+    <!-- PROFILE FORM -->
+
+    <section class="settings-card">
+
+      <div class="card-header">
+
+        <div>
+          <span class="eyebrow">
+            PERSONAL INFORMATION
+          </span>
+
+          <h2>
+            Profile Details
+          </h2>
+
+          <p>
+            Update your basic account information.
+          </p>
+        </div>
+
+        <span
+          class="mode-badge"
+          [class.editing]="isEditing"
+        >
+          {{ isEditing ? 'Editing' : 'View Mode' }}
+        </span>
+
+      </div>
+
+      <form
+        [formGroup]="profileForm"
+        (ngSubmit)="saveProfile()"
+      >
+
+        <div class="form-grid">
+
+          <div class="form-group">
+
+            <label class="form-label">
+              First Name
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="firstName"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Last Name
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="lastName"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Email Address
+            </label>
+
+            <input
+              class="form-control"
+              type="email"
+              formControlName="email"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Phone Number
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="phone"
+            >
+
+          </div>
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Company
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="company"
+            >
+
+          </div>
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Role
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="role"
+            >
+
+          </div>
+
+        </div>
+
+        @if (isEditing) {
+
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="cancelEditing()"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+            >
+              Save Changes
+            </button>
+
+          </div>
+
+        }
+
+      </form>
+
+    </section>
+
+  </div>
+
+
+  <!-- ACCOUNT INFO -->
+
+  <section class="info-grid">
+
+    <div class="info-card">
+
+      <div class="info-icon security">
+        S
+      </div>
+
+      <div>
+        <h3>Account Security</h3>
+
+        <p>
+          Your account credentials are protected
+          through secure authentication.
+        </p>
+
+        <span class="status-text">
+          ● Account Active
+        </span>
+      </div>
+
+    </div>
+
+    <div class="info-card">
+
+      <div class="info-icon notifications">
+        N
+      </div>
+
+      <div>
+        <h3>Smart Notifications</h3>
+
+        <p>
+          Receive updates about leases,
+          compliance deadlines and inspections.
+        </p>
+
+        <span class="status-text">
+          ● Notifications Enabled
+        </span>
+      </div>
+
+    </div>
+
+    <div class="info-card">
+
+      <div class="info-icon ai">
+        ✦
+      </div>
+
+      <div>
+        <h3>AI Compliance</h3>
+
+        <p>
+          Lease documents can be analyzed for
+          risks and important deadlines.
+        </p>
+
+        <span class="status-text">
+          ● AI Services Available
+        </span>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

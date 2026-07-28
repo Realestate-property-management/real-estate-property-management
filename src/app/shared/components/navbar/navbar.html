@@ -1,0 +1,109 @@
+<header class="top-navbar">
+
+  <div class="navbar-left">
+
+    <button
+      class="mobile-menu"
+      type="button"
+      (click)="menuClick.emit()"
+    >
+      ☰
+    </button>
+
+    <div class="welcome-text">
+      <strong>Workspace</strong>
+      <span>Manage your property portfolio</span>
+    </div>
+
+  </div>
+
+
+  <div class="navbar-right">
+
+    <div
+      class="search-container"
+      [class.open]="searchOpen"
+    >
+
+      <span class="search-icon">
+        ⌕
+      </span>
+
+      <input
+        type="text"
+        placeholder="Search properties, tenants..."
+      >
+
+      <button
+        class="mobile-search-button"
+        type="button"
+        (click)="toggleSearch()"
+      >
+        ⌕
+      </button>
+
+    </div>
+
+
+    <a
+      routerLink="/dashboard/notifications"
+      class="icon-button notification-button"
+    >
+      ♧
+
+      <span class="notification-indicator">
+        3
+      </span>
+    </a>
+
+
+    <div class="profile-wrapper">
+
+      <button
+        class="profile-button"
+        type="button"
+        (click)="toggleProfile()"
+      >
+
+        <div class="profile-avatar">
+          AU
+        </div>
+
+        <div class="profile-info">
+          <strong>Admin User</strong>
+          <span>Administrator</span>
+        </div>
+
+        <span class="chevron">
+          ▾
+        </span>
+
+      </button>
+
+
+      @if (profileOpen) {
+
+        <div class="profile-menu">
+
+          <div class="menu-header">
+            <strong>Admin User</strong>
+            <span>admin@propaudit.com</span>
+          </div>
+
+          <a routerLink="/dashboard/settings">
+            Profile Settings
+          </a>
+
+          <a routerLink="/">
+            Sign Out
+          </a>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</header>

@@ -1,0 +1,727 @@
+<div class="tenants-page fade-up">
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        TENANT MANAGEMENT
+      </span>
+
+      <h1>Tenants</h1>
+
+      <p>
+        Manage tenant information, property assignments
+        and lease details.
+      </p>
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="openAddModal()"
+    >
+      + Add Tenant
+    </button>
+
+  </div>
+
+
+  <!-- SUMMARY CARDS -->
+
+  <div class="summary-grid">
+
+    <div class="summary-card">
+      <div class="summary-icon purple">
+        T
+      </div>
+
+      <div>
+        <span>Total Tenants</span>
+
+        <strong>
+          {{ tenants.length }}
+        </strong>
+
+        <small>
+          Registered tenants
+        </small>
+      </div>
+    </div>
+
+
+    <div class="summary-card">
+      <div class="summary-icon green">
+        A
+      </div>
+
+      <div>
+        <span>Active Tenants</span>
+
+        <strong>
+          {{ activeTenants }}
+        </strong>
+
+        <small class="success-text">
+          Currently active
+        </small>
+      </div>
+    </div>
+
+
+    <div class="summary-card">
+      <div class="summary-icon orange">
+        L
+      </div>
+
+      <div>
+        <span>Expiring Leases</span>
+
+        <strong>
+          {{ expiringTenants }}
+        </strong>
+
+        <small class="warning-text">
+          Needs attention
+        </small>
+      </div>
+    </div>
+
+
+    <div class="summary-card">
+      <div class="summary-icon blue">
+        P
+      </div>
+
+      <div>
+        <span>Properties</span>
+
+        <strong>4</strong>
+
+        <small>
+          With active tenants
+        </small>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- TENANT TABLE -->
+
+  <section class="tenant-card">
+
+    <div class="toolbar">
+
+      <div class="search-box">
+
+        <span>⌕</span>
+
+        <input
+          type="text"
+          placeholder="Search tenants, properties or units..."
+          (input)="onSearch($event)"
+        >
+
+      </div>
+
+
+      <select
+        class="filter-select"
+        (change)="onStatusChange($event)"
+      >
+        <option value="ALL">
+          All Status
+        </option>
+
+        <option value="ACTIVE">
+          Active
+        </option>
+
+        <option value="EXPIRING">
+          Expiring
+        </option>
+
+        <option value="INACTIVE">
+          Inactive
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>TENANT</th>
+            <th>PROPERTY</th>
+            <th>UNIT</th>
+            <th>LEASE PERIOD</th>
+            <th>RENT</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+
+          @for (
+            tenant of filteredTenants;
+            track tenant.id
+          ) {
+
+            <tr>
+
+              <td>
+
+                <div class="tenant-info">
+
+                  <div class="avatar">
+                    {{ tenant.fullName.charAt(0) }}
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      {{ tenant.fullName }}
+                    </strong>
+
+                    <span>
+                      {{ tenant.email }}
+                    </span>
+
+                    <small>
+                      {{ tenant.phone }}
+                    </small>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span class="property-name">
+                  {{ tenant.property }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="unit-badge">
+                  {{ tenant.unitNumber }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="lease-date">
+
+                  <strong>
+                    {{ tenant.leaseStart }}
+                  </strong>
+
+                  <span>to</span>
+
+                  <strong>
+                    {{ tenant.leaseEnd }}
+                  </strong>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <strong class="rent">
+                  ₹{{ tenant.monthlyRent }}
+                </strong>
+
+                <span class="rent-label">
+                  / month
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status"
+                  [class.active]="
+                    tenant.status === 'ACTIVE'
+                  "
+                  [class.expiring]="
+                    tenant.status === 'EXPIRING'
+                  "
+                  [class.inactive]="
+                    tenant.status === 'INACTIVE'
+                  "
+                >
+
+                  <span class="status-dot"></span>
+
+                  {{ tenant.status }}
+
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="actions">
+
+                  <button
+                    class="action-button view"
+                    (click)="viewTenant(tenant)"
+                  >
+                    View
+                  </button>
+
+                  <button
+                    class="action-button"
+                    (click)="openEditModal(tenant)"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    class="action-button delete"
+                    (click)="deleteTenant(tenant)"
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+
+      @if (filteredTenants.length === 0) {
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            T
+          </div>
+
+          <h3>No tenants found</h3>
+
+          <p>
+            Try changing your search or filter.
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<!-- ADD / EDIT TENANT MODAL -->
+
+@if (showModal) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeModal()"
+  >
+
+    <div
+      class="modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="eyebrow">
+            TENANT DETAILS
+          </span>
+
+          <h2>
+            @if (editingTenant) {
+              Edit Tenant
+            } @else {
+              Add New Tenant
+            }
+          </h2>
+
+          <p>
+            Enter tenant and lease information.
+          </p>
+
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        [formGroup]="tenantForm"
+        (ngSubmit)="saveTenant()"
+      >
+
+        <div class="form-grid">
+
+          <div class="form-group full">
+
+            <label class="form-label">
+              Full Name
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="fullName"
+              placeholder="Tenant full name"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Email
+            </label>
+
+            <input
+              class="form-control"
+              type="email"
+              formControlName="email"
+              placeholder="tenant@example.com"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Phone
+            </label>
+
+            <input
+              class="form-control"
+              type="tel"
+              formControlName="phone"
+              placeholder="9876543210"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Property
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="property"
+            >
+
+              <option value="">
+                Select Property
+              </option>
+
+              <option value="Greenwood Apartments">
+                Greenwood Apartments
+              </option>
+
+              <option value="Lakeview Towers">
+                Lakeview Towers
+              </option>
+
+              <option value="Palm Heights">
+                Palm Heights
+              </option>
+
+              <option value="Sunrise Residency">
+                Sunrise Residency
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Unit Number
+            </label>
+
+            <input
+              class="form-control"
+              type="text"
+              formControlName="unitNumber"
+              placeholder="Example: A-204"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Lease Start
+            </label>
+
+            <input
+              class="form-control"
+              type="date"
+              formControlName="leaseStart"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Lease End
+            </label>
+
+            <input
+              class="form-control"
+              type="date"
+              formControlName="leaseEnd"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Monthly Rent
+            </label>
+
+            <input
+              class="form-control"
+              type="number"
+              min="0"
+              formControlName="monthlyRent"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="form-label">
+              Status
+            </label>
+
+            <select
+              class="form-control"
+              formControlName="status"
+            >
+
+              <option value="ACTIVE">
+                Active
+              </option>
+
+              <option value="EXPIRING">
+                Expiring
+              </option>
+
+              <option value="INACTIVE">
+                Inactive
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+
+            @if (editingTenant) {
+              Save Changes
+            } @else {
+              Add Tenant
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+}
+
+
+<!-- VIEW TENANT -->
+
+@if (showDetailsModal && selectedTenant) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeDetailsModal()"
+  >
+
+    <div
+      class="modal details-modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="eyebrow">
+            TENANT PROFILE
+          </span>
+
+          <h2>
+            {{ selectedTenant.fullName }}
+          </h2>
+
+          <p>
+            Tenant and lease information.
+          </p>
+
+        </div>
+
+        <button
+          class="close-button"
+          (click)="closeDetailsModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="profile-section">
+
+        <div class="large-avatar">
+          {{ selectedTenant.fullName.charAt(0) }}
+        </div>
+
+        <div>
+
+          <h3>
+            {{ selectedTenant.fullName }}
+          </h3>
+
+          <p>
+            {{ selectedTenant.email }}
+          </p>
+
+          <span
+            class="status active"
+          >
+            {{ selectedTenant.status }}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="details-grid">
+
+        <div class="detail-box">
+          <span>Phone</span>
+          <strong>
+            {{ selectedTenant.phone }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Property</span>
+          <strong>
+            {{ selectedTenant.property }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Unit</span>
+          <strong>
+            {{ selectedTenant.unitNumber }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Monthly Rent</span>
+          <strong>
+            ₹{{ selectedTenant.monthlyRent }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Lease Start</span>
+          <strong>
+            {{ selectedTenant.leaseStart }}
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span>Lease End</span>
+          <strong>
+            {{ selectedTenant.leaseEnd }}
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

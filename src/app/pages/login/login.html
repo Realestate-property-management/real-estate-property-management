@@ -1,0 +1,208 @@
+<div class="auth-page">
+
+  <section class="auth-brand-panel">
+
+    <a routerLink="/" class="brand">
+      <div class="brand-icon">PA</div>
+      <span>PropAudit</span>
+    </a>
+
+    <div class="brand-content fade-up">
+
+      <div class="mini-badge">
+        SMARTER PROPERTY MANAGEMENT
+      </div>
+
+      <h1>
+        Property compliance
+        <span>made effortless.</span>
+      </h1>
+
+      <p>
+        Manage properties, leases, compliance, maintenance and
+        inspections from one intelligent workspace.
+      </p>
+
+      <div class="feature-list">
+
+        <div class="feature-item">
+          <div class="check">✓</div>
+          <div>
+            <strong>AI-powered lease insights</strong>
+            <span>Identify risks and important deadlines.</span>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="check">✓</div>
+          <div>
+            <strong>Centralized property operations</strong>
+            <span>Keep your entire portfolio organized.</span>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="check">✓</div>
+          <div>
+            <strong>Never miss an important deadline</strong>
+            <span>Track maintenance and inspections easily.</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="decorative-card card-one">
+      <span>Compliance Score</span>
+      <strong>92%</strong>
+      <small>Excellent portfolio health</small>
+    </div>
+
+    <div class="decorative-card card-two">
+      <div class="success-circle">✓</div>
+      <div>
+        <strong>Lease analyzed</strong>
+        <span>No critical issues</span>
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="auth-form-panel">
+
+    <div class="auth-form-wrapper fade-up">
+
+      <a routerLink="/" class="mobile-brand">
+        <div class="brand-icon">PA</div>
+        <span>PropAudit</span>
+      </a>
+
+      <div class="form-heading">
+        <h2>Welcome back</h2>
+
+        <p>
+          Sign in to continue to your PropAudit workspace.
+        </p>
+      </div>
+
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+      >
+
+        <div class="form-group">
+
+          <label class="form-label">
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="you@example.com"
+          >
+
+          @if (
+            loginForm.get('email')?.touched &&
+            loginForm.get('email')?.invalid
+          ) {
+            <small class="error-text">
+              Enter a valid email address.
+            </small>
+          }
+
+        </div>
+
+
+        <div class="form-group">
+
+          <div class="label-row">
+
+            <label class="form-label">
+              Password
+            </label>
+
+            <a href="#" class="forgot-link">
+              Forgot password?
+            </a>
+
+          </div>
+
+          <div class="password-wrapper">
+
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              formControlName="password"
+              placeholder="Enter your password"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+            >
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+
+          </div>
+
+          @if (
+            loginForm.get('password')?.touched &&
+            loginForm.get('password')?.invalid
+          ) {
+            <small class="error-text">
+              Password must contain at least 6 characters.
+            </small>
+          }
+
+        </div>
+
+
+        <label class="remember-row">
+
+          <input
+            type="checkbox"
+            formControlName="rememberMe"
+          >
+
+          <span>Remember me</span>
+
+        </label>
+
+
+        <button
+          type="submit"
+          class="btn btn-primary submit-btn"
+        >
+          Sign In
+          <span>→</span>
+        </button>
+
+      </form>
+
+
+      <div class="auth-footer-text">
+
+        <span>
+          New to PropAudit?
+        </span>
+
+        <a routerLink="/signup">
+          Create an account
+        </a>
+
+      </div>
+
+      <a routerLink="/" class="back-home">
+        ← Back to home
+      </a>
+
+    </div>
+
+  </section>
+
+</div>

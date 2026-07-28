@@ -1,0 +1,251 @@
+<aside
+  class="sidebar"
+  [class.collapsed]="collapsed"
+  [class.mobile-open]="mobileOpen"
+>
+
+  <div class="sidebar-header">
+
+    <a routerLink="/dashboard" class="sidebar-brand">
+
+      <div class="logo">
+        PA
+      </div>
+
+      @if (!collapsed) {
+        <span>PropAudit</span>
+      }
+
+    </a>
+
+    <button
+      class="collapse-button"
+      type="button"
+      (click)="toggleSidebar.emit()"
+    >
+      {{ collapsed ? '→' : '←' }}
+    </button>
+
+  </div>
+
+
+  <div class="sidebar-section">
+
+    @if (!collapsed) {
+      <span class="section-label">
+        WORKSPACE
+      </span>
+    }
+
+    <nav class="sidebar-nav">
+
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">⌂</span>
+
+        @if (!collapsed) {
+          <span>Overview</span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/dashboard/properties"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">▦</span>
+
+        @if (!collapsed) {
+          <span>Properties</span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/dashboard/tenants"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">♙</span>
+
+        @if (!collapsed) {
+          <span>Tenants</span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/dashboard/leases"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">▤</span>
+
+        @if (!collapsed) {
+          <span>Leases</span>
+        }
+
+        @if (!collapsed) {
+          <span class="nav-badge">
+            8
+          </span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/dashboard/compliance"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">✓</span>
+
+        @if (!collapsed) {
+          <span>Compliance</span>
+        }
+
+        @if (!collapsed) {
+          <span class="nav-badge warning">
+            4
+          </span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/dashboard/maintenance"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">◇</span>
+
+        @if (!collapsed) {
+          <span>Maintenance</span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/dashboard/inspections"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">◷</span>
+
+        @if (!collapsed) {
+          <span>Inspections</span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/dashboard/contractors"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">♢</span>
+
+        @if (!collapsed) {
+          <span>Contractors</span>
+        }
+      </a>
+
+    </nav>
+
+  </div>
+
+
+  <div class="sidebar-section secondary-section">
+
+    @if (!collapsed) {
+      <span class="section-label">
+        ACCOUNT
+      </span>
+    }
+
+    <nav class="sidebar-nav">
+
+      <a
+  routerLink="/dashboard/notifications"
+  routerLinkActive="active"
+>
+  <span class="nav-icon">N</span>
+
+  <span>
+    Notifications
+  </span>
+
+  <span class="notification-count">
+    3
+  </span>
+</a>
+<a
+  routerLink="/dashboard/profile"
+  routerLinkActive="active"
+>
+  <span class="nav-icon">U</span>
+  <span>Profile</span>
+</a>
+<a
+  routerLink="/dashboard/calendar"
+  routerLinkActive="active"
+>
+  <span class="nav-icon">C</span>
+  <span>Calendar</span>
+</a>
+
+      <a
+        routerLink="/dashboard/settings"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon">⚙</span>
+
+        @if (!collapsed) {
+          <span>Settings</span>
+        }
+      </a>
+
+    </nav>
+
+  </div>
+
+
+  <div class="sidebar-footer">
+
+    <div class="user-card">
+
+      <div class="user-avatar">
+        AU
+      </div>
+
+      @if (!collapsed) {
+
+        <div class="user-info">
+          <strong>Admin User</strong>
+          <span>Administrator</span>
+        </div>
+
+        <span class="more">
+          ⋯
+        </span>
+
+      }
+
+    </div>
+
+  </div>
+
+</aside>
+
+@if (mobileOpen) {
+  <div
+    class="sidebar-overlay"
+    (click)="closeMenu()"
+  ></div>
+}
